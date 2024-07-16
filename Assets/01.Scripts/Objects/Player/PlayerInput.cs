@@ -6,9 +6,13 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
 
+    private PlayerMovement _playerMovement;
+
     private void Awake()
     {
         _inputReader.OnMovementEvent += Movement;
+
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void OnDestroy()
@@ -18,7 +22,8 @@ public class PlayerInput : MonoBehaviour
 
     private void Movement(Vector2 inputPos)
     {
-        Debug.Log(inputPos);
+        Vector3 targetVec = new Vector3(inputPos.x, 0, inputPos.y);
+        _playerMovement.SetMovementVelocity(targetVec);
     }
 
 }
