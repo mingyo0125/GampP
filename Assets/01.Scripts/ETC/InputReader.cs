@@ -30,6 +30,11 @@ public class InputReader : ScriptableObject, Controls.IPlayerActionsActions
             Vector2 inputVec = context.ReadValue<Vector2>();
             OnMovementEvent?.Invoke(inputVec);
         }
+
+        if (context.canceled)
+        {
+            OnMovementEvent?.Invoke(Vector2.zero);
+        }
     }
 
     public void OnTestAction(InputAction.CallbackContext context)
