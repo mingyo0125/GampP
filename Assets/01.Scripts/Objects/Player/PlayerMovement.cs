@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float gravity = -9.8f, speed = 5f;
+    private float gravity = -9.8f, speed = 5f, rotationSpeed;
 
     private CharacterController _charController;
     private PlayerAnimator _animator;
@@ -42,11 +42,19 @@ public class PlayerMovement : MonoBehaviour
         _movementVelocity *= speed * Time.fixedDeltaTime;
     }
 
-    public void SetRotation(Vector3 target)
+    public void SetRotation()
     {
-        Vector3 dir = target - transform.position;
-        dir.y = 0;
-        transform.rotation = Quaternion.LookRotation(dir);
+        if (_inputVelocity.sqrMagnitude > 0.01f)
+        {
+            Vector3 dir = _inputVelocity;
+            dir.y = 0;
+
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  targetRotation,
+                                                  rotationSpeed * Time.fixedDeltaTime);
+        }
     }
 
     public void StopImmediately()
@@ -58,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     public void Move() // FixedUpdate에서 해줄 것
     {
         CalculatePlayerMovement();
+        SetRotation();
 
         if (_charController.isGrounded == false)
         {
