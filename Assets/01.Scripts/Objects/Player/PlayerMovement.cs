@@ -26,24 +26,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetMovementVelocity(Vector3 value)
     {
+        if (value == Vector3.zero) { StopImmediately(); }
         _inputVelocity = value;
-        _movementVelocity = value;
+        //_movementVelocity = value;
     }
 
     private void CalculatePlayerMovement()
     {
         _inputVelocity.Normalize();
 
-        _movementVelocity = Quaternion.Euler(0, -45f, 0) * _inputVelocity;
+        _movementVelocity = _inputVelocity;
 
         //_agentAnimator?.SetSpeed(_movementVelocity.sqrMagnitude); //이동속도 반영
 
         _movementVelocity *= speed * Time.fixedDeltaTime;
-        //if (_movementVelocity.sqrMagnitude > 0)
-        //{
-        //    transform.rotation = Quaternion.LookRotation(_movementVelocity);
-        //}
-
     }
 
     public void SetRotation(Vector3 target)

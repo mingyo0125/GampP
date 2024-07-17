@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject, Controls.IPlayerActionsActions
 {
     public event Action<Vector2> OnMovementEvent;
-    public event Action OnTestEvent;
 
     private Controls _controls;
 
@@ -34,14 +33,6 @@ public class InputReader : ScriptableObject, Controls.IPlayerActionsActions
         if (context.canceled)
         {
             OnMovementEvent?.Invoke(Vector2.zero);
-        }
-    }
-
-    public void OnTestAction(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            OnTestEvent?.Invoke();
         }
     }
 
