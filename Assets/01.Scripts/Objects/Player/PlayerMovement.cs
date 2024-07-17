@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         //_agentAnimator?.SetSpeed(0); //이동속도 반영
     }
 
-    private void FixedUpdate()
+    public void Move() // FixedUpdate에서 해줄 것
     {
         CalculatePlayerMovement();
 
