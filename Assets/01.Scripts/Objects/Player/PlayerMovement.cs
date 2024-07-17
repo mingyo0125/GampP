@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private float gravity = -9.8f, speed = 5f;
 
     private CharacterController _charController;
-    //private AgentAnimator _agentAnimator;
+    private PlayerAnimator _animator;
 
     private Vector3 _movementVelocity;
     public Vector3 MovementVelocity => _movementVelocity;
@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _charController = GetComponent<CharacterController>();
-        //_agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
+        _animator = transform.Find("Visual").GetComponent<PlayerAnimator>();
         //_controller = GetComponent<AgentController>();
     }
 
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
         _movementVelocity = _inputVelocity;
 
-        //_agentAnimator?.SetSpeed(_movementVelocity.sqrMagnitude); //이동속도 반영
+        _animator?.SetSpeed(Mathf.CeilToInt(_movementVelocity.sqrMagnitude)); //이동속도 반영
 
         _movementVelocity *= speed * Time.fixedDeltaTime;
     }
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopImmediately()
     {
         _movementVelocity = Vector3.zero;
-        //_agentAnimator?.SetSpeed(0); //이동속도 반영
+        _animator?.SetSpeed(0); //이동속도 반영
     }
 
     public void Move() // FixedUpdate에서 해줄 것
@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = _movementVelocity + verticalVelocity * Vector3.up;
         _charController.Move(move);
+        
         //_agentAnimator?.SetAirbone(!_charController.isGrounded);
     }
 
