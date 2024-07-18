@@ -23,16 +23,16 @@ public class PlayerNetWork : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //if(IsOwner)
-        //{
-        //    _virtualCamera.Priority = 1;
-        //    _audioListener.enabled = true;
-        //}
-        //else
-        //{
-        //    _virtualCamera.Priority = 0;
-        //    _audioListener.enabled = false;
-        //}
+        if(IsOwner)
+        {
+            _virtualCamera.Priority = 1;
+            _audioListener.enabled = true;
+        }
+        else
+        {
+            _virtualCamera.Priority = 0;
+            _audioListener.enabled = false;
+        }
     }
 
     private void Update()
