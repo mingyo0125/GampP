@@ -16,23 +16,23 @@ public class PlayerNetWork : NetworkBehaviour
 
     private void Awake()
     {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _virtualCamera = transform.Find("PlayerFollowCam").GetComponent<CinemachineVirtualCamera>();
-        _audioListener = transform.Find("Camera").GetComponent<AudioListener>();
+        _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
+        _virtualCamera = transform.parent.Find("PlayerFollowCam").GetComponent<CinemachineVirtualCamera>();
+        _audioListener = transform.parent.Find("Camera").GetComponent<AudioListener>();
     }
 
     public override void OnNetworkSpawn()
     {
-        if(IsOwner)
-        {
-            _virtualCamera.Priority = 1;
-            _audioListener.enabled = true;
-        }
-        else
-        {
-            _virtualCamera.Priority = 0;
-            _audioListener.enabled = false;
-        }
+        //if(IsOwner)
+        //{
+        //    _virtualCamera.Priority = 1;
+        //    _audioListener.enabled = true;
+        //}
+        //else
+        //{
+        //    _virtualCamera.Priority = 0;
+        //    _audioListener.enabled = false;
+        //}
     }
 
     private void Update()

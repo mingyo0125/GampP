@@ -19,8 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _charController = GetComponent<CharacterController>();
-        _animator = transform.Find("Visual").GetComponent<PlayerAnimator>();
+        _charController = transform.parent.GetComponent<CharacterController>();
+        _animator = GetComponent<PlayerAnimator>();
         //_controller = GetComponent<AgentController>();
     }
 
