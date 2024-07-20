@@ -9,6 +9,10 @@ using UnityEngine;
 
 public class TestLobby : MonoBehaviour
 {
+    private Lobby _hostLobby = null;
+
+    private float heartbeatTimer;
+
     private async void Start()
     {
         await UnityServices.InitializeAsync();
@@ -18,18 +22,23 @@ public class TestLobby : MonoBehaviour
             Debug.Log($"Signed In {AuthenticationService.Instance.PlayerId}");
         };
 
+        StartCoroutine(HandleLobbyHeartbeatCorou());
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.D))
+        if(Input.GetKeyUp(KeyCode.J))
         {
             CreateLobby();
         }
+
+        if(Input.GetKeyUp(KeyCode.K))
+        {
+            LobbiesList();
+        }
     }
 
-    [ConsoleMethod("CreateLobby", "Create Lobby")]
     private async void CreateLobby()
     {
         try
@@ -37,6 +46,8 @@ public class TestLobby : MonoBehaviour
             string lobbyName = "MyLobby";
             int maxPlayer = 4;
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer);
+
+            _hostLobby = lobby;
 
             Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}");
         }
@@ -47,4 +58,40 @@ public class TestLobby : MonoBehaviour
         
     }
 
+    private async void LobbiesList()
+    {
+        QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+
+        Debug.Log($"Find Lobbies: {queryResponse.Results.Count}");
+        foreach(Lobby lobby in queryResponse.Results)
+        {
+            Debug.Log($"{lobby.Name}: {lobby.MaxPlayers}");
+        }
+    }
+
+    private IEnumerator HandleLobbyHeartbeatCorou()
+    {
+        while(true)
+        {
+            if (_hostLobby != null)
+            {
+                HandleLobbyHeartbeat();
+            }
+
+            yield return null;
+        }
+    }
+
+    private async void HandleLobbyHeartbeat()
+    {
+        heartbeatTimer -= Time.deltaTime;
+
+        if (heartbeatTimer < 0f)
+        {
+            float heartbeatTimerMax = 15;
+            heartbeatTimer = heartbeatTimerMax;
+
+            await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
+        }
+    }
 }
