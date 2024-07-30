@@ -7,12 +7,17 @@ using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TestLobby : MonoBehaviour
 {
     private Lobby _hostLobby = null;
 
     private float heartbeatTimer;
+
+    private string playerName;
+
+    private const string playerNameKey = "PlayerName";
 
     private async void Start()
     {
@@ -25,6 +30,9 @@ public class TestLobby : MonoBehaviour
 
         StartCoroutine(HandleLobbyHeartbeatCorou());
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        playerName = "player" + Random.Range(10, 99);
+        Debug.Log(playerName);
     }
 
     private void Update()
@@ -49,7 +57,9 @@ public class TestLobby : MonoBehaviour
 
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
-                IsPrivate = false
+                IsPrivate = false,
+
+                Player = GetPlayer()
             };
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, createLobbyOptions);
@@ -57,6 +67,7 @@ public class TestLobby : MonoBehaviour
             _hostLobby = lobby;
 
             Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}, LobbyID: {lobby.Id}, LobbyCode: {lobby.LobbyCode}");
+            PrintPlayer(_hostLobby);
         }
         catch(LobbyServiceException ex)
         {
@@ -69,40 +80,20 @@ public class TestLobby : MonoBehaviour
     {
         try
         {
-            QueryLobbiesOptions queryOptions = CreateQueryLobbiesOptions();
+            QueryLobbiesOptions queryOptions = GetQueryLobbiesOptions();
 
             QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryOptions);
 
             Debug.Log($"Find Lobbies: {queryResponse.Results.Count}");
-            foreach (Lobby lobby in queryResponse.Results)
-            {
-                Debug.Log($"{lobby.Name}: {lobby.MaxPlayers}");
-            }
+            //foreach (Lobby lobby in queryResponse.Results)
+            //{
+            //    Debug.Log($"{lobby.Name}: {lobby.MaxPlayers}");
+            //}
         }
         catch (LobbyServiceException ex)
         {
             Debug.LogError(ex);
         }
-    }
-
-    private QueryLobbiesOptions CreateQueryLobbiesOptions()
-    {
-        return new QueryLobbiesOptions
-        {
-            Count = 25,
-
-            Filters = new List<QueryFilter>
-            {
-                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,
-                                "0",
-                                QueryFilter.OpOptions.GT)
-            },
-
-            Order = new List<QueryOrder>
-            {
-                new QueryOrder(false, QueryOrder.FieldOptions.Created)
-            }
-        };
     }
 
     private IEnumerator HandleLobbyHeartbeatCorou()
@@ -135,13 +126,65 @@ public class TestLobby : MonoBehaviour
     {
         try
         {
+            JoinLobbyByCodeOptions joinLobbyByCode = new JoinLobbyByCodeOptions
+            {
+                Player = GetPlayer(),
+            };
+
             Debug.Log($"Joined Lobby: {lobbyCode}");
 
-            await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            Lobby joinLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCode);
+            
+            PrintPlayer(joinLobby);
         }
         catch (LobbyServiceException ex)
         {
             Debug.LogError(ex);
         }
+    }
+
+    private void PrintPlayer(Lobby lobby)
+    {
+        Debug.Log($"Players in Lobby: {lobby.Name}");
+
+        foreach (Player player in lobby.Players)
+        {
+            Debug.Log($"{player.Id}: {player.Data[playerNameKey].Value}");
+        }
+    }
+
+    private QueryLobbiesOptions GetQueryLobbiesOptions()
+    {
+        return new QueryLobbiesOptions
+        {
+            Count = 25,
+
+            Filters = new List<QueryFilter>
+            {
+                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,
+                                "0",
+                                QueryFilter.OpOptions.GT)
+            },
+
+            Order = new List<QueryOrder>
+            {
+                new QueryOrder(false, QueryOrder.FieldOptions.Created)
+            }
+        };
+    }
+
+    private Player GetPlayer()
+    {
+        return new Player
+        {
+            Data = new Dictionary<string, PlayerDataObject>()
+                    {
+                        {
+                            "PlayerName",
+                            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member,
+                                                 playerName)
+                        }
+                    }
+        };
     }
 }
