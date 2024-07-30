@@ -1,4 +1,5 @@
 using IngameDebugConsole;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Authentication;
@@ -44,7 +45,7 @@ public class TestLobby : MonoBehaviour
         try
         {
             string lobbyName = "MyLobby";
-            int maxPlayer = 4;
+            int maxPlayer = 1;
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer);
 
             _hostLobby = lobby;
@@ -60,13 +61,42 @@ public class TestLobby : MonoBehaviour
 
     private async void LobbiesList()
     {
-        QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
-
-        Debug.Log($"Find Lobbies: {queryResponse.Results.Count}");
-        foreach(Lobby lobby in queryResponse.Results)
+        try
         {
-            Debug.Log($"{lobby.Name}: {lobby.MaxPlayers}");
+            QueryLobbiesOptions queryOptions = CreateQueryLobbiesOptions();
+
+            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryOptions);
+
+            Debug.Log($"Find Lobbies: {queryResponse.Results.Count}");
+            foreach (Lobby lobby in queryResponse.Results)
+            {
+                Debug.Log($"{lobby.Name}: {lobby.MaxPlayers}");
+            }
         }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    private QueryLobbiesOptions CreateQueryLobbiesOptions()
+    {
+        return new QueryLobbiesOptions
+        {
+            Count = 25,
+
+            Filters = new List<QueryFilter>
+            {
+                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,
+                                "0",
+                                QueryFilter.OpOptions.GT)
+            },
+
+            Order = new List<QueryOrder>
+            {
+                new QueryOrder(false, QueryOrder.FieldOptions.Created)
+            }
+        };
     }
 
     private IEnumerator HandleLobbyHeartbeatCorou()
