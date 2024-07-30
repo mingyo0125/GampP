@@ -38,11 +38,6 @@ public class TestLobby : MonoBehaviour
         {
             LobbiesList();
         }
-
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            JoinLobby();
-        }
     }
 
     private async void CreateLobby()
@@ -51,11 +46,17 @@ public class TestLobby : MonoBehaviour
         {
             string lobbyName = "MyLobby";
             int maxPlayer = 4;
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer);
+
+            CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
+            {
+                IsPrivate = false
+            };
+
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, createLobbyOptions);
 
             _hostLobby = lobby;
 
-            Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}");
+            Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}, LobbyID: {lobby.Id}, LobbyCode: {lobby.LobbyCode}");
         }
         catch(LobbyServiceException ex)
         {
@@ -130,12 +131,17 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-    private async void JoinLobby()
+    public async void JoinLobbyByCode(string lobbyCode)
     {
-        QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+        try
+        {
+            Debug.Log($"Joined Lobby: {lobbyCode}");
 
-        Debug.Log($"Joined Lobby: {queryResponse.Results[0].Id}");
-
-        await Lobbies.Instance.JoinLobbyByIdAsync(queryResponse.Results[0].Id);
+            await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode);
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
     }
 }
