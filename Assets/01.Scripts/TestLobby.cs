@@ -38,6 +38,11 @@ public class TestLobby : MonoBehaviour
         {
             LobbiesList();
         }
+
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            JoinLobby();
+        }
     }
 
     private async void CreateLobby()
@@ -45,7 +50,7 @@ public class TestLobby : MonoBehaviour
         try
         {
             string lobbyName = "MyLobby";
-            int maxPlayer = 1;
+            int maxPlayer = 4;
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer);
 
             _hostLobby = lobby;
@@ -123,5 +128,14 @@ public class TestLobby : MonoBehaviour
 
             await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
         }
+    }
+
+    private async void JoinLobby()
+    {
+        QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+
+        Debug.Log($"Joined Lobby: {queryResponse.Results[0].Id}");
+
+        await Lobbies.Instance.JoinLobbyByIdAsync(queryResponse.Results[0].Id);
     }
 }
