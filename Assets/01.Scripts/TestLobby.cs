@@ -12,8 +12,10 @@ using Random = UnityEngine.Random;
 public class TestLobby : MonoBehaviour
 {
     private Lobby _hostLobby = null;
+    private Lobby _joinedLobby = null;
 
     private float heartbeatTimer;
+    private float lobbyUpdateTimer;
 
     private string playerName;
 
@@ -28,7 +30,7 @@ public class TestLobby : MonoBehaviour
             Debug.Log($"Signed In {AuthenticationService.Instance.PlayerId}");
         };
 
-        StartCoroutine(HandleLobbyHeartbeatCorou());
+        StartCoroutine(LobbyUpdate());
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
         playerName = "player" + Random.Range(10, 99);
@@ -76,6 +78,7 @@ public class TestLobby : MonoBehaviour
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, createLobbyOptions);
 
             _hostLobby = lobby;
+            _joinedLobby = _hostLobby;
 
             Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}, LobbyID: {lobby.Id}, LobbyCode: {lobby.LobbyCode}");
             PrintPlayer(_hostLobby);
@@ -107,20 +110,25 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-    private IEnumerator HandleLobbyHeartbeatCorou()
+    private IEnumerator LobbyUpdate()
     {
         while(true)
         {
             if (_hostLobby != null)
             {
-                HandleLobbyHeartbeat();
+                UpdateLobbyHeartbeat();
+            }
+
+            if(_joinedLobby != null)
+            {
+                UpdateJoinLobby();
             }
 
             yield return null;
         }
     }
 
-    private async void HandleLobbyHeartbeat()
+    private async void UpdateLobbyHeartbeat()
     {
         heartbeatTimer -= Time.deltaTime;
 
@@ -130,6 +138,20 @@ public class TestLobby : MonoBehaviour
             heartbeatTimer = heartbeatTimerMax;
 
             await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
+        }
+    }
+
+    private async void UpdateJoinLobby()
+    {
+        lobbyUpdateTimer -= Time.deltaTime;
+
+        if (lobbyUpdateTimer < 0f)
+        {
+            float lobbyUpdateTimerMax = 1.1f;
+            lobbyUpdateTimer = lobbyUpdateTimerMax;
+
+            Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
+            _joinedLobby = lobby;
         }
     }
 
@@ -144,9 +166,10 @@ public class TestLobby : MonoBehaviour
 
             Debug.Log($"Joined Lobby: {lobbyCode}");
 
-            Lobby joinLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCode);
-            
-            PrintPlayer(joinLobby);
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCode);
+            _joinedLobby = lobby;
+
+            PrintPlayer(lobby);
         }
         catch (LobbyServiceException ex)
         {
@@ -218,6 +241,8 @@ public class TestLobby : MonoBehaviour
                     }
                 }
             });
+
+            _joinedLobby = _hostLobby;
         }
         catch (LobbyServiceException ex)
         {
