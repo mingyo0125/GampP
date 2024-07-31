@@ -202,4 +202,27 @@ public class TestLobby : MonoBehaviour
                     }
         };
     }
+
+    private async void UpdateLobbyData(string key, DataObject.VisibilityOptions visibilityOption, string updateStringValue)
+    {
+        try
+        {
+            _hostLobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id,
+            new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject>
+                {
+                    {
+                        key,
+                        new DataObject(visibilityOption, updateStringValue)
+                    }
+                }
+            });
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+        
+    }
 }
