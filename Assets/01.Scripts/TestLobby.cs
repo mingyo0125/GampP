@@ -59,7 +59,18 @@ public class TestLobby : MonoBehaviour
             {
                 IsPrivate = false,
 
-                Player = GetPlayer()
+                Player = GetPlayer(),
+
+                Data = new Dictionary<string, DataObject>
+                {
+                    {
+                        "LobbyName",
+
+                        new DataObject(DataObject.VisibilityOptions.Public,
+                                       "CaptureTheFlag") /*,
+                                       DataObject.IndexOptions.S1 ) */ // 
+                    }
+                }
             };
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, createLobbyOptions);
@@ -163,7 +174,11 @@ public class TestLobby : MonoBehaviour
             {
                 new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,
                                 "0",
-                                QueryFilter.OpOptions.GT)
+                                QueryFilter.OpOptions.GT),
+
+                //new QueryFilter(QueryFilter.FieldOptions.S1,
+                //                "CaptureTheFlag",
+                //                QueryFilter.OpOptions.EQ)
             },
 
             Order = new List<QueryOrder>
