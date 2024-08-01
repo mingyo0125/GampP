@@ -2,14 +2,16 @@ using IngameDebugConsole;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
-public class TestLobby : MonoBehaviour
+public class LobbyController : MonoBehaviour
 {
     private Lobby _hostLobby = null;
     private Lobby _joinedLobby = null;
@@ -39,14 +41,19 @@ public class TestLobby : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.J))
+        if(Input.GetKeyDown(KeyCode.J))
         {
             CreateLobby();
         }
 
-        if(Input.GetKeyUp(KeyCode.K))
+        if(Input.GetKeyDown(KeyCode.K))
         {
             LobbiesList();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LeaveLobby();
         }
     }
 
@@ -249,5 +256,69 @@ public class TestLobby : MonoBehaviour
             Debug.LogError(ex);
         }
         
+    }
+
+    private async void LeaveLobby()
+    {
+        try
+        {
+            if (AuthenticationService.Instance.PlayerId == _joinedLobby.HostId) // 내가 호스트면
+            {
+                MigrateLobbyHost(_joinedLobby.Players[1].Id); // 호스트 옮김
+            }
+
+            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+
+            if (_joinedLobby.Players.Count <= 0) // 플레이어가 다 나가면 로비도 삭제
+            {
+                DeleteLobby();
+            }
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    private async void KickPlayer(string kickPlayerId)
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, kickPlayerId);
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    private async void MigrateLobbyHost(string hostId) // Change Host
+    {
+        try
+        {
+            _hostLobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id,
+            new UpdateLobbyOptions
+            {
+                HostId = hostId
+            });
+
+            _joinedLobby = _hostLobby;
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    private void DeleteLobby()
+    {
+        try
+        {
+            LobbyService.Instance.DeleteLobbyAsync(_joinedLobby.Id);
+        }
+        catch(LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
     }
 }
