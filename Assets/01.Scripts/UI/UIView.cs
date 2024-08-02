@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIView : MonoBehaviour
 {

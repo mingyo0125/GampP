@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
-public class LobbyController : MonoBehaviour
+public class LobbyManager : MonoSingleTon<LobbyManager>
 {
     private Lobby _hostLobby = null;
     private Lobby _joinedLobby = null;
@@ -41,23 +41,13 @@ public class LobbyController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.J))
-        {
-            CreateLobby();
-        }
-
         if(Input.GetKeyDown(KeyCode.K))
         {
             LobbiesList();
         }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LeaveLobby();
-        }
     }
 
-    private async void CreateLobby()
+    public async void CreateLobby()
     {
         try
         {
@@ -166,16 +156,22 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            // 로비 코드 정리
+            string cleanedLobbyCode = CleanLobbyCode(lobbyCode);
+
+            // 로비 참여 옵션 설정
             JoinLobbyByCodeOptions joinLobbyByCode = new JoinLobbyByCodeOptions
             {
                 Player = GetPlayer(),
             };
 
-            Debug.Log($"Joined Lobby: {lobbyCode}");
+            Debug.Log($"Joined Lobby: {cleanedLobbyCode}");
 
-            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCode);
+            // 로비에 참여
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(cleanedLobbyCode, joinLobbyByCode);
             _joinedLobby = lobby;
 
+            // 플레이어 정보 출력
             PrintPlayer(lobby);
         }
         catch (LobbyServiceException ex)
@@ -183,6 +179,14 @@ public class LobbyController : MonoBehaviour
             Debug.LogError(ex);
         }
     }
+
+    // 로비 코드에서 불필요한 문자를 제거하는 메서드
+    private string CleanLobbyCode(string code)
+    {
+        // 모든 Zero Width Space 문자를 제거합니다
+        return code.Replace("\u200B", string.Empty);
+    }
+
 
     private void PrintPlayer(Lobby lobby)
     {
