@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class DummyPlayer : MonoBehaviour
+public class DummyPlayer : NetworkBehaviour
 {
     Animator _animator;
     CharacterController _characterController;

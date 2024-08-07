@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -76,6 +77,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
+
+            NetworkManager.Singleton.StartHost();
 
             Debug.Log($"Create {lobbyName} Lobby. maxyPlayer: {maxPlayer}, LobbyID: {lobby.Id}, LobbyCode: {lobby.LobbyCode}");
             PrintPlayer(_hostLobby);
@@ -170,6 +173,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
             // 로비에 참여
             Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(cleanedLobbyCode, joinLobbyByCode);
             _joinedLobby = lobby;
+
+            NetworkManager.Singleton.StartClient();
 
             // 플레이어 정보 출력
             PrintPlayer(lobby);

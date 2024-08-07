@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GenerateMapTrigger : MonoBehaviour
 {
+    bool isCreated = false;
     private void OnTriggerEnter(Collider other)
     {
-        SignalHub.OnGenerateMapEvent?.Invoke(transform.position);
+        if (!isCreated)
+        {
+            SignalHub.OnGenerateMapEvent?.Invoke(transform.position);
+            isCreated = true;
+        }
     }
 }

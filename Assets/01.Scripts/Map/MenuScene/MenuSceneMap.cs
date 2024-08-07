@@ -6,6 +6,6 @@ public class MenuSceneMap : MonoBehaviour
 {
     private void Start()
     {
-        Destroy(gameObject, 15f);
+        Destroy(gameObject, 30f);
     }
 }
