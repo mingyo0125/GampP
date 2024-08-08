@@ -38,8 +38,9 @@ public class DummyPlayerSpawner : NetworkBehaviour
     [ServerRpc]
     private void SpawnDummyPlayerServerRpc()
     {
-        Debug.Log("asd");
-        GameObject player = Instantiate(_player, _playerTransform.position - new Vector3(0.00000001f * playersCount, 0, 0), Quaternion.Euler(0, 90, 0));
+        Vector3 playerPos = _playerTransform.position;
+        playerPos.x += playersCount * 5;
+        GameObject player = Instantiate(_player, playerPos, Quaternion.Euler(0, 90, 0));
         player.GetComponent<NetworkObject>().Spawn(true);
         playersCount++;
     }
