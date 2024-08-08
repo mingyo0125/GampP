@@ -9,5 +9,7 @@ public class UICreateLobbyButton : UIButton
     {
         LobbyManager.Instance.CreateLobby();
         UIManager.Instance.HideUI("PlayUI");
+        UIManager.Instance.HideUI("Play_Button");
+        UIManager.Instance.ShowUI("ExitLobby_Button");
     }
 }

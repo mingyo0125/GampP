@@ -24,6 +24,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
     private const string playerNameKey = "PlayerName";
 
+    private Dictionary<string, ulong> _playerIds = new Dictionary<string, ulong>();
+
     private async void Start()
     {
         await UnityServices.InitializeAsync();
@@ -176,6 +178,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             NetworkManager.Singleton.StartClient();
 
+            _playerIds.Add(AuthenticationService.Instance.PlayerId, NetworkManager.Singleton.LocalClientId);
+
             // 플레이어 정보 출력
             PrintPlayer(lobby);
         }
@@ -267,7 +271,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         
     }
 
-    private async void LeaveLobby()
+    public async void LeaveLobby()
     {
         try
         {
@@ -276,12 +280,15 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
                 MigrateLobbyHost(_joinedLobby.Players[1].Id); // 호스트 옮김
             }
 
+            NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
+            _playerIds.Remove(AuthenticationService.Instance.PlayerId);
             await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
             if (_joinedLobby.Players.Count <= 0) // 플레이어가 다 나가면 로비도 삭제
             {
                 DeleteLobby();
             }
+
         }
         catch (LobbyServiceException ex)
         {
@@ -293,6 +300,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
+            NetworkManager.Singleton.DisconnectClient(_playerIds[kickPlayerId]);
+            _playerIds.Remove(kickPlayerId);
             await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, kickPlayerId);
         }
         catch (LobbyServiceException ex)
