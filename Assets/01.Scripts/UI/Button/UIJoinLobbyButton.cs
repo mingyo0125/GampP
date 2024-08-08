@@ -11,5 +11,6 @@ public class UIJoinLobbyButton : UIButton
     protected override void ButtonEvent()
     {
         LobbyManager.Instance.JoinLobbyByCode(_inputText.text);
+        UIManager.Instance.HideUI("PlayUI");
     }
 }
