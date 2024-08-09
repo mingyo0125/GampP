@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: afaefa048f145b049b656c429a9de5db
+guid: 74738332bca4987428a14f9e8df4045d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - ADELIA
+  - Maplestory
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
