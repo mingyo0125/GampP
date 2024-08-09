@@ -11,5 +11,6 @@ public class UICreateLobbyButton : UIButton
         UIManager.Instance.HideUI("PlayUI");
         UIManager.Instance.HideUI("Play_Button");
         UIManager.Instance.ShowUI("ExitLobby_Button");
+        UIManager.Instance.ShowUI("LobbyUI");
     }
 }

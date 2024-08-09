@@ -8,7 +8,10 @@ public class ExitLobbyButton : UIButton
     protected override void Awake()
     {
         base.Awake();
+    }
 
+    private void Start()
+    {
         UIManager.Instance.HideUI(name);
     }
 

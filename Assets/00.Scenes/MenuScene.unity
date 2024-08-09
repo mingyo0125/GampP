@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5a6dae6ffb9b04499a00f0a6be76be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxPlayerCount: 4
 --- !u!1 &266606498
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +530,7 @@ GameObject:
   - component: {fileID: 385141771}
   - component: {fileID: 385141773}
   - component: {fileID: 385141772}
+  - component: {fileID: 385141774}
   m_Layer: 5
   m_Name: PlayerCount_Text
   m_TagString: Untagged
@@ -652,6 +654,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385141770}
   m_CullTransparentMesh: 1
+--- !u!114 &385141774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385141770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd498a5e696a0a46a2a12668d0bef65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &514000822
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,7 +726,7 @@ MonoBehaviour:
   m_text: "Input LobbyCode\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
-  m_sharedMaterial: {fileID: 3773539096443994330, guid: 48113fa107a065042999c73f3fe68a86, type: 2}
+  m_sharedMaterial: {fileID: 4241014827211239622, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -775,7 +789,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &514000825
@@ -797,6 +811,7 @@ GameObject:
   - component: {fileID: 528240382}
   - component: {fileID: 528240384}
   - component: {fileID: 528240383}
+  - component: {fileID: 528240385}
   m_Layer: 5
   m_Name: PlayUILobbyCode_Text
   m_TagString: Untagged
@@ -920,6 +935,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528240381}
   m_CullTransparentMesh: 1
+--- !u!114 &528240385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528240381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd498a5e696a0a46a2a12668d0bef65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &556234843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,7 +1252,7 @@ MonoBehaviour:
   m_text: Join Lobby
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
-  m_sharedMaterial: {fileID: 3773539096443994330, guid: 48113fa107a065042999c73f3fe68a86, type: 2}
+  m_sharedMaterial: {fileID: 4241014827211239622, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1288,7 +1315,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &870959198
@@ -1578,6 +1605,7 @@ GameObject:
   - component: {fileID: 995567945}
   - component: {fileID: 995567944}
   - component: {fileID: 995567943}
+  - component: {fileID: 995567946}
   m_Layer: 5
   m_Name: ExitLobby_Button
   m_TagString: Untagged
@@ -1687,6 +1715,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995567941}
   m_CullTransparentMesh: 1
+--- !u!114 &995567946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995567941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2933cdfd25767ba45aedcb7c7902cc78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1020785440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,7 +1743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1020785441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1882,7 +1922,7 @@ MonoBehaviour:
   m_text: Create Lobby
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
-  m_sharedMaterial: {fileID: 3773539096443994330, guid: 48113fa107a065042999c73f3fe68a86, type: 2}
+  m_sharedMaterial: {fileID: 4241014827211239622, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1945,7 +1985,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1538338382
@@ -2093,7 +2133,6 @@ GameObject:
   - component: {fileID: 1541874712}
   - component: {fileID: 1541874715}
   - component: {fileID: 1541874714}
-  - component: {fileID: 1541874713}
   m_Layer: 5
   m_Name: PlayUI_Popup
   m_TagString: Untagged
@@ -2121,18 +2160,6 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1541874713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541874711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ec41b218988d74a8e2b7b0d070e29f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1541874714
 MonoBehaviour:
   m_ObjectHideFlags: 0

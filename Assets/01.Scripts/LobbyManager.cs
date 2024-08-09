@@ -14,6 +14,9 @@ using Random = UnityEngine.Random;
 
 public class LobbyManager : MonoSingleTon<LobbyManager>
 {
+    [SerializeField]
+    private int maxPlayerCount;
+
     private Lobby _hostLobby = null;
     private Lobby _joinedLobby = null;
 
@@ -55,7 +58,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         try
         {
             string lobbyName = "MyLobby";
-            int maxPlayer = 4;
+            int maxPlayer = maxPlayerCount;
 
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
@@ -154,6 +157,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
             _joinedLobby = lobby;
+            UpdateLobbyUI();
         }
     }
 
@@ -182,6 +186,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             // 플레이어 정보 출력
             PrintPlayer(lobby);
+
         }
         catch (LobbyServiceException ex)
         {
@@ -338,5 +343,14 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         {
             Debug.LogError(ex);
         }
+    }
+
+    private void UpdateLobbyUI()
+    {
+        Debug.Log("Running");
+
+        UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
+        string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
+        UIManager.Instance.UpdateText("PlayerCount_Text", PlayerCountText);
     }
 }
