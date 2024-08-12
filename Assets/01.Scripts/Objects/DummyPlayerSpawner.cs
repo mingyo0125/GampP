@@ -21,6 +21,8 @@ public class DummyPlayerSpawner : NetworkBehaviour
         OnClientConnectedCallback = null;
         OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+
+        SpawnDummyPlayer();
     }
 
     private void OnClientConnected(ulong clientId)
