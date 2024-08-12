@@ -7,9 +7,9 @@ using UnityEngine;
 public class DummyPlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject _player;
+    private GameObject _player, _otherPlayer;
 
-    private Transform _playerTransform;
+    string playerName;
 
     private int playersCount = 1;
 
@@ -20,29 +20,36 @@ public class DummyPlayerSpawner : NetworkBehaviour
         OnClientConnectedCallback = null;
         OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
-    }
 
-    private void Awake()
-    {
-        _playerTransform = FindAnyObjectByType<DummyPlayer>().transform;
+        GameObject dummyPlayer = Instantiate(_player,
+                                             new Vector3(-39.4f, -4.01f, 12.1f),
+                                             Quaternion.Euler(0, 90, 0));
+
+        playerName = GenerateRandomName();
+        dummyPlayer.name = playerName;
     }
 
     private void OnClientConnected(ulong clientId)
     {
-        if (IsHost && NetworkManager.Singleton.ConnectedClients.Count >= 2)
+        if (IsServer && NetworkManager.Singleton.ConnectedClients.Count >= 2)
         {
-            SpawnDummyPlayerServerRpc();
+            SpawnDummyPlayerClientRpc();
         }
     }
 
-    [ServerRpc]
-    private void SpawnDummyPlayerServerRpc()
+    [ClientRpc]
+    private void SpawnDummyPlayerClientRpc()
     {
-        Vector3 playerPos = _playerTransform.position;
+        Vector3 playerPos = GameObject.Find(playerName).transform.position;
         playerPos.x += playersCount * 5;
-        GameObject player = Instantiate(_player, playerPos, Quaternion.Euler(0, 90, 0));
-        player.GetComponent<NetworkObject>().Spawn(true);
+        GameObject player = Instantiate(_otherPlayer, playerPos, Quaternion.Euler(0, 90, 0));
         playersCount++;
+    }
+
+    private string GenerateRandomName()
+    {
+        // Generate a unique name using GUID
+        return $"Player_{Guid.NewGuid()}";
     }
 
     //public override void OnNetworkSpawn()

@@ -186,7 +186,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             // 플레이어 정보 출력
             PrintPlayer(lobby);
-
+            UpdateLobbyUI();
         }
         catch (LobbyServiceException ex)
         {
@@ -347,8 +347,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
     private void UpdateLobbyUI()
     {
-        Debug.Log("Running");
-
         UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
         string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
         UIManager.Instance.UpdateText("PlayerCount_Text", PlayerCountText);
