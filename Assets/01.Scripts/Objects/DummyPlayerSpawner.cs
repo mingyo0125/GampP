@@ -7,11 +7,12 @@ using UnityEngine;
 public class DummyPlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject _player, _otherPlayer;
+    private GameObject _playerPrefab;
 
-    string playerName;
+    [SerializeField]
+    private Transform _playerSpawnedPoint;
 
-    private int playersCount = 1;
+    private int playersCount = 0;
 
     private Action<ulong> OnClientConnectedCallback = null;
 
@@ -20,13 +21,6 @@ public class DummyPlayerSpawner : NetworkBehaviour
         OnClientConnectedCallback = null;
         OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
-
-        GameObject dummyPlayer = Instantiate(_player,
-                                             new Vector3(-39.4f, -4.01f, 12.1f),
-                                             Quaternion.Euler(0, 90, 0));
-
-        playerName = GenerateRandomName();
-        dummyPlayer.name = playerName;
     }
 
     private void OnClientConnected(ulong clientId)
@@ -40,20 +34,14 @@ public class DummyPlayerSpawner : NetworkBehaviour
     [ClientRpc]
     private void SpawnDummyPlayerClientRpc()
     {
-        Vector3 playerPos = GameObject.Find(playerName).transform.position;
-        playerPos.x += playersCount * 5;
-        GameObject player = Instantiate(_otherPlayer, playerPos, Quaternion.Euler(0, 90, 0));
+        SpawnDummyPlayer();
+    }
+
+    private void SpawnDummyPlayer()
+    {
+        Vector3 playerPos = _playerSpawnedPoint.position;
+        playerPos.x += 3 * playersCount;
+        GameObject player = Instantiate(_playerPrefab, playerPos, Quaternion.identity);
         playersCount++;
     }
-
-    private string GenerateRandomName()
-    {
-        // Generate a unique name using GUID
-        return $"Player_{Guid.NewGuid()}";
-    }
-
-    //public override void OnNetworkSpawn()
-    //{
-
-    //}
 }
