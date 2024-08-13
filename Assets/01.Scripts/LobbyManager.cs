@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -26,8 +28,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private string playerName;
 
     private const string playerNameKey = "PlayerName";
-
-    private Dictionary<string, ulong> _playerIds = new Dictionary<string, ulong>();
 
     private async void Start()
     {
@@ -161,7 +161,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         }
     }
 
-    public async void JoinLobbyByCode(string lobbyCode)
+    public async Task<bool> JoinLobbyByCode(string lobbyCode)
     {
         try
         {
@@ -178,19 +178,30 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             // 로비에 참여
             Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(cleanedLobbyCode, joinLobbyByCode);
+
             _joinedLobby = lobby;
 
             NetworkManager.Singleton.StartClient();
 
-            _playerIds.Add(AuthenticationService.Instance.PlayerId, NetworkManager.Singleton.LocalClientId);
-
             // 플레이어 정보 출력
             PrintPlayer(lobby);
             UpdateLobbyUI();
+
+            return true;
         }
         catch (LobbyServiceException ex)
         {
-            Debug.LogError(ex);
+            if (ex.Reason == LobbyExceptionReason.LobbyNotFound)
+            {
+                Debug.LogError("The lobby code you entered does not exist.");
+                // 사용자에게 로비가 존재하지 않는다는 메시지 표시
+            }
+            else
+            {
+                Debug.LogError($"Failed to join lobby: {ex}");
+            }
+
+            return false;
         }
     }
 
@@ -276,68 +287,104 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         
     }
 
-    public async void LeaveLobby()
+    public async Task<bool> LeaveLobby()
     {
         try
         {
-            if (AuthenticationService.Instance.PlayerId == _joinedLobby.HostId) // 내가 호스트면
+            bool isDeleteLobby = false;
+            if (NetworkManager.Singleton.IsHost) // 서버(호스트)라면 클라이언트 연결 해제
             {
-                MigrateLobbyHost(_joinedLobby.Players[1].Id); // 호스트 옮김
+                //int playersCount = _joinedLobby.Players.Count;
+                //Debug.Log($"playersCount: {playersCount}");
+                //if (playersCount >= 2) // 내가 마지막으로 남은 것이 아니면
+                //{
+                //    MigrateLobbyHost(_joinedLobby.Players[1].Id); // 호스트 옮김
+                //}
+
+                // 여기다가 호스트가 나갔다고 UI로
+
+                isDeleteLobby = true; // 호스트가 나가면 터지도록
+            }
+            else // 클라이언트라면 Shutdown
+            {
+                NetworkManager.Singleton.Shutdown();
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
             }
 
-            NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
-            _playerIds.Remove(AuthenticationService.Instance.PlayerId);
+            if (_joinedLobby.Players.Count <= 0 || // 플레이어가 다 나가거나 호스트가 나가면
+                isDeleteLobby) 
+            {
+                DeleteLobby(); // 로비 삭제
+            }
+
+            UIManager.Instance.HideUI("LobbyUI");
+            UpdateLobbyUI();
+            return true;
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+            return false;
+        }
+    }
+
+    private async void KickPlayer()
+    {
+        try
+        {
+            if(NetworkManager.Singleton.IsHost)
+            {
+                NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
+            }
+            else
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
+
             await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
-            if (_joinedLobby.Players.Count <= 0) // 플레이어가 다 나가면 로비도 삭제
+            Debug.Log("Kick Player");
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    //private async void MigrateLobbyHost(string hostId) // Change Host
+    //{
+    //    try
+    //    {
+    //        _hostLobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id,
+    //        new UpdateLobbyOptions
+    //        {
+    //            HostId = hostId
+    //        });
+
+    //        Debug.Log($"hostId: {hostId}");
+    //        Debug.Log($"hostId: {_hostLobby.HostId}");
+    //        _joinedLobby = _hostLobby;
+    //    }
+    //    catch (LobbyServiceException ex)
+    //    {
+    //        Debug.LogError(ex);
+    //    }
+    //}
+
+    private async void DeleteLobby()
+    {
+        try
+        {
+            for (int i = 0; i < _joinedLobby.Players.Count; i++)
             {
-                DeleteLobby();
+                KickPlayer();
             }
 
-        }
-        catch (LobbyServiceException ex)
-        {
-            Debug.LogError(ex);
-        }
-    }
-
-    private async void KickPlayer(string kickPlayerId)
-    {
-        try
-        {
-            NetworkManager.Singleton.DisconnectClient(_playerIds[kickPlayerId]);
-            _playerIds.Remove(kickPlayerId);
-            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, kickPlayerId);
-        }
-        catch (LobbyServiceException ex)
-        {
-            Debug.LogError(ex);
-        }
-    }
-
-    private async void MigrateLobbyHost(string hostId) // Change Host
-    {
-        try
-        {
-            _hostLobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id,
-            new UpdateLobbyOptions
+            if (NetworkManager.Singleton.IsHost)
             {
-                HostId = hostId
-            });
-
-            _joinedLobby = _hostLobby;
-        }
-        catch (LobbyServiceException ex)
-        {
-            Debug.LogError(ex);
-        }
-    }
-
-    private void DeleteLobby()
-    {
-        try
-        {
-            LobbyService.Instance.DeleteLobbyAsync(_joinedLobby.Id);
+                await LobbyService.Instance.DeleteLobbyAsync(_joinedLobby.Id);
+                Debug.Log("DeleteLobbyAsync");
+            }
         }
         catch(LobbyServiceException ex)
         {

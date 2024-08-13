@@ -1808,7 +1808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8581636d21ec0d443ad6cd1dcc550826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _map: {fileID: 4214512365961600408, guid: f09bd6e27fc4ae94eb9137c5bef92e51, type: 3}
 --- !u!4 &206743749
 Transform:
   m_ObjectHideFlags: 0
@@ -2132,7 +2131,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 7
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []

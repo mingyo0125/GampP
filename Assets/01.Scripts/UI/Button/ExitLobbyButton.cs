@@ -15,9 +15,12 @@ public class ExitLobbyButton : UIButton
         UIManager.Instance.HideUI(name);
     }
 
-    protected override void ButtonEvent()
+    protected override async void ButtonEvent()
     {
+        bool leaveSucces = await LobbyManager.Instance.LeaveLobby();
+        if(!leaveSucces) { return; }
+
         UIManager.Instance.ShowUI("Play_Button");
-        LobbyManager.Instance.LeaveLobby();
+        UIManager.Instance.HideUI("ExitLobby_Button");
     }
 }
