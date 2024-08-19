@@ -315,8 +315,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
                 // 여기다가 호스트가 나갔다고 UI로
 
-                UIManager.Instance.HideUI("LobbyUI");
-
                 HideLobbyUIClientRpc();
                 NetworkManager.Singleton.Shutdown();
                 await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
@@ -384,8 +382,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private void HideLobbyUI()
     {
         Debug.Log("HideLobbyUIClientRpc");
-        UIManager.Instance.HideUI("LobbyUI");
 
+        UIManager.Instance.HideUI("LobbyUI");
         UIManager.Instance.ShowUI("Play_Button");
         UIManager.Instance.HideUI("ExitLobby_Button");
 

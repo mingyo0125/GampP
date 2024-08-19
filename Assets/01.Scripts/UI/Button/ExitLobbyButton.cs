@@ -22,5 +22,6 @@ public class ExitLobbyButton : UIButton
 
         UIManager.Instance.ShowUI("Play_Button");
         UIManager.Instance.HideUI("ExitLobby_Button");
+        UIManager.Instance.HideUI("LobbyUI");
     }
 }

@@ -10,6 +10,12 @@ public class UIJoinLobbyButton : UIButton
 
     protected async override void ButtonEvent()
     {
+        if (_inputText.text.Length != 7)
+        {
+
+            return;
+        }
+
         bool isjoinSucces = await LobbyManager.Instance.JoinLobbyByCode(_inputText.text);
 
         if (!isjoinSucces) { return; } // 여기서 로비 실패 띄워야됨

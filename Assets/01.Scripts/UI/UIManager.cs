@@ -26,6 +26,10 @@ public class UIManager : MonoSingleTon<UIManager>
 
     private void Awake()
     {
+        _staticUIs = new Dictionary<string, UIView>();
+        _curActiveUIs = new Dictionary<string, UIView>();
+
+
         List<UIView> uIViews = FindObjectsOfType<UIView>().ToList();
         uIViews.ForEach(view => _staticUIs.Add(view.name, view));
 
