@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 public class DummyPlayerSpawner : NetworkBehaviour
@@ -26,8 +27,6 @@ public class DummyPlayerSpawner : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
 
-
-
         SpawnDummyPlayer(NetworkManager.Singleton.LocalClientId);
     }
 
@@ -48,7 +47,7 @@ public class DummyPlayerSpawner : NetworkBehaviour
     {
         GameObject disconnectedPlayer = GameObject.Find(clientId.ToString());
         Destroy(disconnectedPlayer);
-        playersCount--; // ¾ÈµÊ
+        playersCount--;
     }
 
     [ClientRpc]

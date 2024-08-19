@@ -292,6 +292,9 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
+            NetworkManager.Singleton.Shutdown();
+            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+
             if (NetworkManager.Singleton.IsHost) // 서버(호스트)라면 클라이언트 연결 해제
             {
                 //int playersCount = _joinedLobby.Players.Count;
@@ -305,46 +308,18 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
                 DeleteLobby();
             }
-            else // 클라이언트라면 Shutdown
+            else
             {
-                NetworkManager.Singleton.Shutdown();
-                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+                ReSetLobby();
             }
 
             UIManager.Instance.HideUI("LobbyUI");
-            UpdateLobbyUI();
-            ReSetLobby();
             return true;
         }
         catch (LobbyServiceException ex)
         {
             Debug.LogError(ex);
             return false;
-        }
-    }
-
-    [ClientRpc]
-    private async Task KickPlayerClientRpc()
-    {
-        try
-        {
-            NetworkManager.Singleton.Shutdown();
-
-            if (NetworkManager.Singleton.IsHost)
-            {
-                return;
-            }
-
-            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
-
-            ReSetLobby();
-
-            UIManager.Instance.HideUI("LobbyUI");
-            UpdateLobbyUI();
-        }
-        catch (LobbyServiceException ex)
-        {
-            Debug.LogError(ex);  
         }
     }
 
@@ -372,8 +347,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
-            await KickPlayerClientRpc();
-
             await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
 
             ReSetLobby();
