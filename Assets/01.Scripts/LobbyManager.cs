@@ -42,7 +42,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
         playerName = "player" + Random.Range(10, 99);
-        Debug.Log(playerName);
     }
 
     private void Update()
@@ -155,8 +154,10 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
             float lobbyUpdateTimerMax = 1.1f;
             lobbyUpdateTimer = lobbyUpdateTimerMax;
 
+            Debug.Log("asd");
             Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
             _joinedLobby = lobby;
+
             UpdateLobbyUI();
         }
     }
@@ -291,7 +292,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
-            bool isDeleteLobby = false;
             if (NetworkManager.Singleton.IsHost) // 서버(호스트)라면 클라이언트 연결 해제
             {
                 //int playersCount = _joinedLobby.Players.Count;
@@ -303,7 +303,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
                 // 여기다가 호스트가 나갔다고 UI로
 
-                isDeleteLobby = true; // 호스트가 나가면 터지도록
+                DeleteLobby();
             }
             else // 클라이언트라면 Shutdown
             {
@@ -311,14 +311,9 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
                 await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
             }
 
-            if (_joinedLobby.Players.Count <= 0 || // 플레이어가 다 나가거나 호스트가 나가면
-                isDeleteLobby) 
-            {
-                DeleteLobby(); // 로비 삭제
-            }
-
             UIManager.Instance.HideUI("LobbyUI");
             UpdateLobbyUI();
+            ReSetLobby();
             return true;
         }
         catch (LobbyServiceException ex)
@@ -328,26 +323,28 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         }
     }
 
-    private async void KickPlayer()
+    [ClientRpc]
+    private async Task KickPlayerClientRpc()
     {
         try
         {
-            if(NetworkManager.Singleton.IsHost)
+            NetworkManager.Singleton.Shutdown();
+
+            if (NetworkManager.Singleton.IsHost)
             {
-                NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
-            }
-            else
-            {
-                NetworkManager.Singleton.Shutdown();
+                return;
             }
 
             await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
-            Debug.Log("Kick Player");
+            ReSetLobby();
+
+            UIManager.Instance.HideUI("LobbyUI");
+            UpdateLobbyUI();
         }
         catch (LobbyServiceException ex)
         {
-            Debug.LogError(ex);
+            Debug.LogError(ex);  
         }
     }
 
@@ -375,18 +372,14 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
-            for (int i = 0; i < _joinedLobby.Players.Count; i++)
-            {
-                KickPlayer();
-            }
+            await KickPlayerClientRpc();
 
-            if (NetworkManager.Singleton.IsHost)
-            {
-                await LobbyService.Instance.DeleteLobbyAsync(_joinedLobby.Id);
-                Debug.Log("DeleteLobbyAsync");
-            }
+            await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
+
+            ReSetLobby();
+            LobbiesList();
         }
-        catch(LobbyServiceException ex)
+        catch (LobbyServiceException ex)
         {
             Debug.LogError(ex);
         }
@@ -397,5 +390,11 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
         string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
         UIManager.Instance.UpdateText("PlayerCount_Text", PlayerCountText);
+    }
+
+    private void ReSetLobby()
+    {
+        _joinedLobby = null;
+        _hostLobby = _joinedLobby;
     }
 }

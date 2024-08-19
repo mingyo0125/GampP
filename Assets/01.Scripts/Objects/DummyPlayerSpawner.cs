@@ -26,6 +26,8 @@ public class DummyPlayerSpawner : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
 
+
+
         SpawnDummyPlayer(NetworkManager.Singleton.LocalClientId);
     }
 
@@ -39,24 +41,14 @@ public class DummyPlayerSpawner : NetworkBehaviour
 
     private void OnClientDisconnected(ulong clientId)
     {
-        if(IsHost)
-        {
-            DestroyDummyPlayerClientRpc(clientId);
-        }
+        DestroyDummyPlayer(clientId);
     }
 
-    [ClientRpc]
-    private void DestroyDummyPlayerClientRpc(ulong clientId)
+    private void DestroyDummyPlayer(ulong clientId)
     {
         GameObject disconnectedPlayer = GameObject.Find(clientId.ToString());
         Destroy(disconnectedPlayer);
         playersCount--; // ¾ÈµÊ
-        Debug.Log($"{IsHost}: {playersCount}");
-
-        if (clientId == NetworkManager.LocalClientId)
-        {
-            UIManager.Instance.HideUI("LobbyUI");
-        }
     }
 
     [ClientRpc]
