@@ -2,6 +2,7 @@ using IngameDebugConsole;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -155,9 +156,19 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
             lobbyUpdateTimer = lobbyUpdateTimerMax;
 
             Debug.Log("asd");
-            Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
-            _joinedLobby = lobby;
-
+            try
+            {
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
+                _joinedLobby = lobby;
+            }
+            catch(Exception ex)
+            {
+                if (LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id) == null)
+                {
+                    Debug.Log("a");
+                    ReSetLobby();
+                }
+            }
             UpdateLobbyUI();
         }
     }
@@ -292,10 +303,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         try
         {
-            NetworkManager.Singleton.Shutdown();
-            await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
 
-            if (NetworkManager.Singleton.IsHost) // 서버(호스트)라면 클라이언트 연결 해제
+            if (NetworkManager.Singleton.IsServer) // 서버(호스트)라면 클라이언트 연결 해제
             {
                 //int playersCount = _joinedLobby.Players.Count;
                 //Debug.Log($"playersCount: {playersCount}");
@@ -306,14 +315,22 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
                 // 여기다가 호스트가 나갔다고 UI로
 
-                DeleteLobby();
+                UIManager.Instance.HideUI("LobbyUI");
+
+                HideLobbyUIClientRpc();
+                NetworkManager.Singleton.Shutdown();
+                await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
             }
             else
             {
-                ReSetLobby();
+                HideLobbyUI();
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
             }
 
-            UIManager.Instance.HideUI("LobbyUI");
+            NetworkManager.Singleton.Shutdown();
+
+            ReSetLobby();
+
             return true;
         }
         catch (LobbyServiceException ex)
@@ -343,21 +360,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     //    }
     //}
 
-    private async void DeleteLobby()
-    {
-        try
-        {
-            await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
-
-            ReSetLobby();
-            LobbiesList();
-        }
-        catch (LobbyServiceException ex)
-        {
-            Debug.LogError(ex);
-        }
-    }
-
     private void UpdateLobbyUI()
     {
         UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
@@ -369,5 +371,24 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         _joinedLobby = null;
         _hostLobby = _joinedLobby;
+    }
+
+    [ClientRpc]
+    private void HideLobbyUIClientRpc()
+    {
+        if (IsOwner) return;
+
+        HideLobbyUI();
+    }
+
+    private void HideLobbyUI()
+    {
+        Debug.Log("HideLobbyUIClientRpc");
+        UIManager.Instance.HideUI("LobbyUI");
+
+        UIManager.Instance.ShowUI("Play_Button");
+        UIManager.Instance.HideUI("ExitLobby_Button");
+
+        //ReSetLobby();
     }
 }
