@@ -372,14 +372,14 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private void HideLobbyUIClientRpc()
     {
         if (IsOwner) return;
+        
+        UIManager.Instance.ShowWarningText("로비가 더 이상 존재하지 않습니다.");
 
         HideLobbyUI();
     }
 
     private void HideLobbyUI()
     {
-        Debug.Log("HideLobbyUIClientRpc");
-
         UIManager.Instance.HideUI("LobbyUI");
         UIManager.Instance.ShowUI("Play_Button");
         UIManager.Instance.HideUI("ExitLobby_Button");
