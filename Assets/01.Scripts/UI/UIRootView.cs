@@ -11,20 +11,25 @@ public class UIRootView : UIView
     private Queue<UIView> _uiQueue = new Queue<UIView>();
     public Queue<UIView> UiQueue => _uiQueue;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         List<UIView> uIViews = GetComponentsInChildren<UIView>().ToList();
 
         uIViews.ForEach(uiView =>
         {
             _uiQueue.Enqueue(uiView);
-            uiView.SetQueue(this);
         });
     }
 
     private void Start()
     {
-        UIManager.Instance.ShowUI(name);
+        UIManager.Instance.ShowUI(name, false);
         if (!startActive) { UIManager.Instance.HideUI(name); }
+        else
+        {
+            Debug.Log(name);
+        }
     }
 }

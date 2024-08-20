@@ -1,18 +1,13 @@
-using IngameDebugConsole;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class LobbyManager : MonoSingleTon<LobbyManager>
@@ -203,14 +198,16 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         }
         catch (LobbyServiceException ex)
         {
-            if (ex.Reason == LobbyExceptionReason.LobbyNotFound)
+            bool isloobyFound = ex.Reason == LobbyExceptionReason.LobbyNotFound ||
+                                ex.Reason == LobbyExceptionReason.InvalidJoinCode;
+
+            if (isloobyFound)
             {
-                Debug.LogError("The lobby code you entered does not exist.");
-                // 사용자에게 로비가 존재하지 않는다는 메시지 표시
+                UIManager.Instance.ShowWarningText("로비를 찾을 수 없습니다.");
             }
             else
             {
-                Debug.LogError($"Failed to join lobby: {ex}");
+                UIManager.Instance.ShowWarningText("로비 참가에 실패하였습니다.");
             }
 
             return false;

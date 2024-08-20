@@ -12,13 +12,14 @@ public class UIJoinLobbyButton : UIButton
     {
         if (_inputText.text.Length != 7)
         {
-
+            UIManager.Instance.ShowWarningText("코드가 올바른 형식이 아닙니다");
             return;
         }
 
         bool isjoinSucces = await LobbyManager.Instance.JoinLobbyByCode(_inputText.text);
 
-        if (!isjoinSucces) { return; } // 여기서 로비 실패 띄워야됨
+        if(!isjoinSucces) { return; }
+
         UIManager.Instance.HideUI("PlayUI");
         UIManager.Instance.ShowUI("LobbyUI");
         UIManager.Instance.ShowUI("ExitLobby_Button");

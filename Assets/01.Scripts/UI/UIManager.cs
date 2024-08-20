@@ -1,13 +1,14 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
-using Unity.Services.Lobbies.Models;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoSingleTon<UIManager>
 {
+    [SerializeField]
+    private float uiFadeTime;
+
     private Canvas _canvas;
 
     private Stack<UIPopUp> _prevPopUpUIViews = new();
@@ -74,7 +75,7 @@ public class UIManager : MonoSingleTon<UIManager>
         }
     }
 
-    public void ShowUI(string uiName)
+    public void ShowUI(string uiName, bool isFade = false)
     {
         if (_curActiveUIs.ContainsKey(uiName))
         {
@@ -83,10 +84,11 @@ public class UIManager : MonoSingleTon<UIManager>
         }
 
         (bool, UIView) ui = GetStaticUI(uiName);
-
         if (!ui.Item1) { return; }
 
-        ui.Item2.gameObject.SetActive(true);
+        if (isFade) { FadeIn(ui.Item2.CanvasGroupCompo, uiFadeTime); }
+        else { ui.Item2.gameObject.SetActive(true); }
+
         _curActiveUIs.Add(uiName, ui.Item2);
 
         if (_prevPopUpUIViews.TryPeek(out UIPopUp _prevPopUpUIView)) // 이거 Peek로 할지 Pop으로 할지 보류
@@ -112,9 +114,10 @@ public class UIManager : MonoSingleTon<UIManager>
         _curActiveUIs.Add(uiName, popupUI);
     }
 
-    public void HideUI(string uiName)
+    public void HideUI(string uiName, bool isFade = false)
     {
         (bool, UIView) ui = GetStaticUI(uiName);
+        Debug.Log(ui.Item2.name);
 
         if (!ui.Item1) { return; }
 
@@ -125,9 +128,44 @@ public class UIManager : MonoSingleTon<UIManager>
         }
         else
         {
-            ui.Item2.gameObject.SetActive(false); // 일단 이걸로 나중에 트윈 넣자.
+            if (isFade) { FadeOut(ui.Item2.CanvasGroupCompo, uiFadeTime); }
+            else { ui.Item2.gameObject.SetActive(false); }
         }
 
         _curActiveUIs.Remove(uiName);
     }
+
+    public Tween FadeIn(CanvasGroup canvasGroup, float fadeTime)
+    {
+        canvasGroup.DOKill();
+        canvasGroup.alpha = 0.0f;
+        canvasGroup.gameObject.SetActive(true);
+        return canvasGroup.DOFade(1f, fadeTime).OnComplete(() => canvasGroup.interactable = true);
+    }
+
+    public Tween FadeOut(CanvasGroup canvasGroup, float fadeTime)
+    {
+        canvasGroup.DOKill();
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.interactable = false;
+        return canvasGroup.DOFade(0f, fadeTime).OnComplete(() => canvasGroup.gameObject.SetActive(false));
+    }
+
+    public void ShowWarningText(string textContent)
+    {
+        UIText warningText = GetStaticUI("Warning_Text").Item2 as UIText;
+        warningText.SetText(textContent);
+
+        UIView warningpannel = GetStaticUI("Warning_Panel").Item2;
+
+        FadeIn(warningpannel.CanvasGroupCompo, uiFadeTime)
+            .OnComplete(() =>
+            {
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    FadeOut(warningpannel.CanvasGroupCompo, uiFadeTime);
+                });
+            });
+    }
+
 }

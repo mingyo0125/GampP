@@ -7,8 +7,10 @@ public abstract class UIButton : UIView
 {
     private Button _button;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _button = GetComponent<Button>();
 
         _button.onClick.AddListener(() => ButtonEvent());

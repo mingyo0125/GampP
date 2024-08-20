@@ -7,8 +7,10 @@ public class UIText : UIView
 {
     private TextMeshProUGUI _text;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _text = GetComponent<TextMeshProUGUI>();
     }
 
