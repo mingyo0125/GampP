@@ -117,7 +117,6 @@ public class UIManager : MonoSingleTon<UIManager>
     public void HideUI(string uiName, bool isFade = false)
     {
         (bool, UIView) ui = GetStaticUI(uiName);
-        Debug.Log(ui.Item2.name);
 
         if (!ui.Item1) { return; }
 

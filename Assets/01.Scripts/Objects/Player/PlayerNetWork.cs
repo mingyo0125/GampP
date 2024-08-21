@@ -43,7 +43,6 @@ public class PlayerNetWork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) { return; }
-
         _playerMovement.Move();
     }
 }
