@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 public class UIRootView : UIView
@@ -27,9 +28,5 @@ public class UIRootView : UIView
     {
         UIManager.Instance.ShowUI(name, false);
         if (!startActive) { UIManager.Instance.HideUI(name); }
-        else
-        {
-            Debug.Log(name);
-        }
     }
 }

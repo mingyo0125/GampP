@@ -38,6 +38,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
         playerName = "player" + Random.Range(10, 99);
+
+        DontDestroyOnLoad(transform.parent);
     }
 
     private void Update()
@@ -45,6 +47,11 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
         if(Input.GetKeyDown(KeyCode.K))
         {
             LobbiesList();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            PrintPlayer(_joinedLobby);
         }
     }
 
@@ -164,6 +171,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
                     ReSetLobby();
                 }
             }
+
+            // 이거 로비에서만 돌리게
             UpdateLobbyUI();
         }
     }
@@ -225,7 +234,10 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private void PrintPlayer(Lobby lobby)
     {
         Debug.Log($"Players in Lobby: {lobby.Name}");
-
+        foreach(NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            Debug.Log($"{client.ClientId}");
+        }
         foreach (Player player in lobby.Players)
         {
             Debug.Log($"{player.Id}: {player.Data[playerNameKey].Value}");

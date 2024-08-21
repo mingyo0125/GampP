@@ -1,22 +1,15 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Services.Authentication;
 using UnityEngine;
 
-public class DummyPlayerSpawner : NetworkBehaviour
+public class DummyPlayerSpawner : PlayerSpawner
 {
-    [SerializeField]
-    private GameObject _playerPrefab;
-
-    [SerializeField]
-    private Transform _playerSpawnedPoint;
-
-    private int playersCount = 0;
-
     private Action<ulong> OnClientConnectedCallback = null;
     private Action<ulong> OnClientDisconnectCallback = null;
 
-    private void Start()
+    protected override void SubscribeCallbacks()
     {
         OnClientConnectedCallback = null;
         OnClientDisconnectCallback = null;
@@ -26,8 +19,11 @@ public class DummyPlayerSpawner : NetworkBehaviour
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
+    }
 
-        SpawnDummyPlayer(NetworkManager.Singleton.LocalClientId);
+    protected override void Start()
+    {
+        SpawnPlayer(NetworkManager.Singleton.LocalClientId);
     }
 
     private void OnClientConnected(ulong clientId)
@@ -53,15 +49,6 @@ public class DummyPlayerSpawner : NetworkBehaviour
     [ClientRpc]
     private void SpawnDummyPlayerClientRpc(ulong clientId)
     {
-        SpawnDummyPlayer(clientId);
-    }
-
-    private void SpawnDummyPlayer(ulong clientId)
-    {
-        Vector3 playerPos = _playerSpawnedPoint.position;
-        playerPos.x += 3 * playersCount;
-        GameObject player = Instantiate(_playerPrefab, playerPos, Quaternion.identity);
-        player.name = clientId.ToString();
-        playersCount++;
+        SpawnPlayer(clientId);
     }
 }
