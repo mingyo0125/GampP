@@ -371,7 +371,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     {
         UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
         string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
-        UIManager.Instance.UpdateText("PlayerCount_Text", PlayerCountText);
     }
 
     private void ReSetLobby()
