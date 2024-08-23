@@ -7999,7 +7999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &995567942
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10021,6 +10021,7 @@ GameObject:
   - component: {fileID: 1237884946}
   - component: {fileID: 1237884945}
   - component: {fileID: 1237884944}
+  - component: {fileID: 1237884948}
   m_Layer: 5
   m_Name: Play_Button
   m_TagString: Untagged
@@ -10142,6 +10143,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237884942}
   m_CullTransparentMesh: 1
+--- !u!114 &1237884948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237884942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aef2dec15cc5874781da44dde7638df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1260904220
 GameObject:
   m_ObjectHideFlags: 0
@@ -11550,8 +11563,9 @@ GameObject:
   - component: {fileID: 1455619617}
   - component: {fileID: 1455619619}
   - component: {fileID: 1455619618}
+  - component: {fileID: 1455619621}
   m_Layer: 5
-  m_Name: ExitLobby_Text
+  m_Name: Play_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11673,6 +11687,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455619616}
   m_CullTransparentMesh: 1
+--- !u!225 &1455619621
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455619616}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &1463381750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 335374198597596110, guid: f09bd6e27fc4ae94eb9137c5bef92e51, type: 3}
@@ -17363,7 +17389,7 @@ GameObject:
   - component: {fileID: 2087806885}
   - component: {fileID: 4370665176965264336}
   m_Layer: 5
-  m_Name: Play_Button
+  m_Name: Lobby_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17458,7 +17484,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.1, y: 4}
+  m_AnchoredPosition: {x: -60.6, y: 4}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4370665177538097046
@@ -17473,7 +17499,7 @@ GameObject:
   - component: {fileID: 4370665177538097043}
   - component: {fileID: 1118463357}
   m_Layer: 5
-  m_Name: PlayButton_Text
+  m_Name: LobbyButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
