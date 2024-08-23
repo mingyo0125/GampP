@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using System.Globalization;
 
 public static class ExtensionMethod
 {
-    public static Coroutine TextAnimation(this TextMeshProUGUI texts, bool isRepeat = false)
+    public static Coroutine TextAnimation(this TextMeshProUGUI text, bool isRepeat = false)
     {
-        return texts.StartCoroutine(TextAnimationCorou(texts, isRepeat));
+        return text.StartCoroutine(TextAnimationCorou(text, isRepeat));
     }
 
-    private static IEnumerator TextAnimationCorou(TextMeshProUGUI texts, bool isRepeat)
+    private static IEnumerator TextAnimationCorou(TextMeshProUGUI text, bool isRepeat)
     {
-        texts.ForceMeshUpdate();
-        TMP_TextInfo textInfo = texts.textInfo;
+        text.ForceMeshUpdate();
+        TMP_TextInfo textInfo = text.textInfo;
 
         while (isRepeat)
         {
@@ -41,7 +42,7 @@ public static class ExtensionMethod
                         {
                             vertices[charInfo.vertexIndex + j] = originalVertices[j] + new Vector3(0, y, 0);
                         }
-                        texts.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
+                        text.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
                     },
                     10f, // 올라가는 높이
                     0.1f // 올라가는 시간
@@ -55,7 +56,7 @@ public static class ExtensionMethod
                         {
                             vertices[charInfo.vertexIndex + j] = originalVertices[j] + new Vector3(0, y, 0);
                         }
-                        texts.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
+                        text.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
                     },
                     0f, // 내려오는 높이
                     0.1f // 내려오는 시간
