@@ -2,7 +2,9 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoSingleTon<UIManager>
 {
@@ -112,6 +114,13 @@ public class UIManager : MonoSingleTon<UIManager>
         _prevPopUpUIViews.Push(popupUI);
 
         _curActiveUIs.Add(uiName, popupUI);
+    }
+
+    public void HideAll()
+    {
+        List<string> activeUIKeys = _curActiveUIs.Keys.ToList();
+
+        activeUIKeys.ForEach(uiName => HideUI(uiName));
     }
 
     public void HideUI(string uiName, bool isFade = false)

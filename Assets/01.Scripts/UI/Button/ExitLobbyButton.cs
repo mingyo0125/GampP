@@ -20,8 +20,9 @@ public class ExitLobbyButton : UIButton
         bool leaveSucces = await LobbyManager.Instance.LeaveLobby();
         if(!leaveSucces) { return; }
 
-        UIManager.Instance.ShowUI("Play_Button");
+        UIManager.Instance.ShowUI("Lobby_Button");
         UIManager.Instance.HideUI("ExitLobby_Button");
         UIManager.Instance.HideUI("LobbyUI");
+        UIManager.Instance.HideUI("Play_Button");
     }
 }

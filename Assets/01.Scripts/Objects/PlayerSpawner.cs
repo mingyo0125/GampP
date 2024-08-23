@@ -19,7 +19,7 @@ public abstract class PlayerSpawner : NetworkBehaviour
 
     protected virtual void OnEnable()
     {
-        SubscribeCallbacks();
+        CoroutineUtil.CallWaitForSeconds(1f, () => SubscribeCallbacks());
     }
 
     protected virtual GameObject SpawnPlayer(ulong clientId)

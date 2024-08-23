@@ -23,6 +23,6 @@ public class UIJoinLobbyButton : UIButton
         UIManager.Instance.HideUI("PlayUI");
         UIManager.Instance.ShowUI("LobbyUI");
         UIManager.Instance.ShowUI("ExitLobby_Button");
-        UIManager.Instance.HideUI("Play_Button");
+        UIManager.Instance.HideUI("Lobby_Button");
     }
 }

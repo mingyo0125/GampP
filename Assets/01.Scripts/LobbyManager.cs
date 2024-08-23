@@ -165,7 +165,8 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
             }
             catch(Exception ex)
             {
-                if (LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id) == null)
+                if (_joinedLobby == null||
+                    LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id) == null)
                 {
                     Debug.Log("a");
                     ReSetLobby();
@@ -369,8 +370,12 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
     private void UpdateLobbyUI()
     {
-        UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
-        string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
+        try
+        {
+            UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
+            string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
+        }
+        catch { }
     }
 
     private void ReSetLobby()
@@ -392,7 +397,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private void HideLobbyUI()
     {
         UIManager.Instance.HideUI("LobbyUI");
-        UIManager.Instance.ShowUI("Play_Button");
+        UIManager.Instance.ShowUI("Lobby_Button");
         UIManager.Instance.HideUI("ExitLobby_Button");
 
         //ReSetLobby();
