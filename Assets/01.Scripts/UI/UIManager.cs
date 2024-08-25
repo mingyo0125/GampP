@@ -36,7 +36,7 @@ public class UIManager : MonoSingleTon<UIManager>
         List<UIView> uIViews = FindObjectsOfType<UIView>().ToList();
         uIViews.ForEach(view => _staticUIs.Add(view.name, view));
 
-        _canvas = FindObjectOfType<Canvas>();
+        _canvas = FindAnyObjectByType<Canvas>();
     }
 
     public UIPopUp GetPopUpUIPrefab(string uiName)

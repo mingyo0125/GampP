@@ -12,7 +12,7 @@ public abstract class MonoSingleTon<T> : NetworkBehaviour where T : NetworkBehav
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<T>();
+                instance = FindAnyObjectByType<T>();
 
                 if (instance == null)
                 {

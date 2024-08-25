@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,11 @@ public class UIPlayButton : UIButton
 
     protected override void ButtonEvent()
     {
-        DummyPlayer[] dummyPlayers = FindObjectsOfType<DummyPlayer>();
+        DummyPlayer[] dummyPlayers = FindObjectsByType<DummyPlayer>(FindObjectsSortMode.None);
 
         foreach (DummyPlayer dummyPlayer in dummyPlayers)
         {
-            Debug.Log(dummyPlayer);
-            Destroy(dummyPlayer);
+            dummyPlayer.SetMove();
         }
 
         UIManager.Instance.HideAll();
