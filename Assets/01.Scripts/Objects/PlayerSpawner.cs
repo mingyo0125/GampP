@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Services.Authentication;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public abstract class PlayerSpawner : NetworkBehaviour

@@ -157,7 +157,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
             float lobbyUpdateTimerMax = 1.1f;
             lobbyUpdateTimer = lobbyUpdateTimerMax;
 
-            Debug.Log("asd");
             try
             {
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id); // 이렇게 joinedLobby를 업데이트
@@ -235,6 +234,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     private void PrintPlayer(Lobby lobby)
     {
         Debug.Log($"Players in Lobby: {lobby.Name}");
+        if (!IsServer) { return; }
         foreach(NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
             Debug.Log($"{client.ClientId}");

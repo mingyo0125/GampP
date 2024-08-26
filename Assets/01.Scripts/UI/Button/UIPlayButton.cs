@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class UIPlayButton : UIButton
 {
+    TTTTest _tTTest;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _tTTest = FindAnyObjectByType<TTTTest>();
+    }
+
     private void Start()
     {
         UIManager.Instance.HideUI(name);
@@ -12,12 +20,7 @@ public class UIPlayButton : UIButton
 
     protected override void ButtonEvent()
     {
-        DummyPlayer[] dummyPlayers = FindObjectsByType<DummyPlayer>(FindObjectsSortMode.None);
-
-        foreach (DummyPlayer dummyPlayer in dummyPlayers)
-        {
-            dummyPlayer.SetMove();
-        }
+        _tTTest.SetPlayersMove();
 
         UIManager.Instance.HideAll();
     }

@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Services.Lobbies.Models;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Unity.Netcode.NetworkSceneManager;
@@ -14,8 +9,6 @@ public class InGamePlayerSpawner : PlayerSpawner
 
     protected override void SubscribeCallbacks()
     {
-        Debug.Log("OnEnable");
-
         _inGameSceneLoadCompleteCallback = null;
         _inGameSceneLoadCompleteCallback += OnInGameSceneLoadComplete;
         NetworkManager.Singleton.SceneManager.OnLoadComplete += _inGameSceneLoadCompleteCallback;
