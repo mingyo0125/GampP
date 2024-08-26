@@ -19,14 +19,6 @@ public class UIManager : MonoSingleTon<UIManager>
 
     private Dictionary<string, UIView> _curActiveUIs = new Dictionary<string, UIView>();
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            ShowUI("LobbyUI");
-        }
-    }
-
     private void Awake()
     {
         _staticUIs = new Dictionary<string, UIView>();
@@ -152,6 +144,16 @@ public class UIManager : MonoSingleTon<UIManager>
         {
             canvasGroup.interactable = true;
             action?.Invoke();
+        });
+    }
+
+    public void SceneFadeIn(Action FadeFinAction = null)
+    {
+        CanvasGroup fadeImage = GameObject.Find("Fade_Image").GetComponent<CanvasGroup>();
+        fadeImage.gameObject.name = "Fading"; // 여러번 될 수도 있으니까 이름을 바꿔버려서 다음에는 못 찾게
+        UIManager.Instance.FadeIn(fadeImage, 1.5f, () =>
+        {
+            FadeFinAction?.Invoke();
         });
     }
 

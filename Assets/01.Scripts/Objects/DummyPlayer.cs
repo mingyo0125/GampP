@@ -37,16 +37,11 @@ public class DummyPlayer : MonoBehaviour
                 _playerAnimator.SetSpeed(10);
                 CoroutineUtil.CallWaitForSeconds(1.5f, () =>
                 {
-                    try
+                    UIManager.Instance.SceneFadeIn(() =>
                     {
-                        CanvasGroup fadeImage = GameObject.Find("Fade_Image").GetComponent<CanvasGroup>();
-                        fadeImage.gameObject.name = "Fading"; // 여러번 될 수도 있으니까 이름을 바꿔버려서 다음에는 못 찾게
-                        UIManager.Instance.FadeIn(fadeImage, 1.5f, () =>
-                        {
-                            LoadingSceneManager.LoadScene("CityLoadingScene"); // 이거 나중에 맵 선택하는걸로 바꾸셈
-                        });
-                    }
-                    catch { }
+                        SceneController.SetNextLoadGameScene("City"); // 바꾸면 이것도 바꾸시고
+                        SceneController.LoadScene("CityLoadingScene"); // 이거 나중에 맵 선택하는걸로 바꾸셈
+                    });
                 });
             });
     }

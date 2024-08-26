@@ -370,6 +370,7 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
     private void UpdateLobbyUI()
     {
+        // 로비씬에서만 하게 바꾸셈
         try
         {
             UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
