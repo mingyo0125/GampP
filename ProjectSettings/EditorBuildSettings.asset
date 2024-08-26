@@ -9,9 +9,10 @@ EditorBuildSettings:
     path: Assets/00.Scenes/MenuScene.unity
     guid: 9c27554695ee42f4e9cf8d9a45c9cb6c
   - enabled: 1
-    path: Assets/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/00.Scenes/City/CityLoadingScene.unity
+    guid: 05bb2d43fecd94446b28049ef7d8c3d2
   - enabled: 1
-    path: Assets/00.Scenes/DemoScene.unity
-    guid: c5f4a9658803981469ebe90da3bd7fbf
-  m_configObjects: {}
+    path: Assets/00.Scenes/City/City.unity
+    guid: 7e6d3f4e5d896154ab4438845532ac3e
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 5fb6cf3d908f8c14d90b26bbf236baed, type: 2}

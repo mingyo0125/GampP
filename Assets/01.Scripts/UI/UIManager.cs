@@ -143,20 +143,28 @@ public class UIManager : MonoSingleTon<UIManager>
         _curActiveUIs.Remove(uiName);
     }
 
-    public Tween FadeIn(CanvasGroup canvasGroup, float fadeTime)
+    public Tween FadeIn(CanvasGroup canvasGroup, float fadeTime, Action action = null)
     {
         canvasGroup.DOKill();
         canvasGroup.alpha = 0.0f;
         canvasGroup.gameObject.SetActive(true);
-        return canvasGroup.DOFade(1f, fadeTime).OnComplete(() => canvasGroup.interactable = true);
+        return canvasGroup.DOFade(1f, fadeTime).OnComplete(() =>
+        {
+            canvasGroup.interactable = true;
+            action?.Invoke();
+        });
     }
 
-    public Tween FadeOut(CanvasGroup canvasGroup, float fadeTime)
+    public Tween FadeOut(CanvasGroup canvasGroup, float fadeTime, Action action = null)
     {
         canvasGroup.DOKill();
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = false;
-        return canvasGroup.DOFade(0f, fadeTime).OnComplete(() => canvasGroup.gameObject.SetActive(false));
+        return canvasGroup.DOFade(0f, fadeTime).OnComplete(() =>
+        {
+            canvasGroup.gameObject.SetActive(false);
+            action?.Invoke();
+        });
     }
 
     public void ShowWarningText(string textContent)

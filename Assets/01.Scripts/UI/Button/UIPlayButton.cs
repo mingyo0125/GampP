@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class UIPlayButton : UIButton
 {
-    TTTTest _tTTest;
+    SpawnDummyPlayersController _spawnDummyPlayersController;
 
     protected override void Awake()
     {
         base.Awake();
-        _tTTest = FindAnyObjectByType<TTTTest>();
+        _spawnDummyPlayersController = FindAnyObjectByType<SpawnDummyPlayersController>();
     }
 
     private void Start()
@@ -20,7 +20,7 @@ public class UIPlayButton : UIButton
 
     protected override void ButtonEvent()
     {
-        _tTTest.SetPlayersMove();
+        _spawnDummyPlayersController.SetPlayersMove();
 
         UIManager.Instance.HideAll();
     }
