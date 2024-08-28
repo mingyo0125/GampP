@@ -36,8 +36,8 @@ public class LoadingText : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence
-            .Append(transform.DOLocalMoveY(originYPos + 100, 0.5f))
-            .Append(transform.DOLocalMoveY(originYPos, 0.5f))
+            .Append(transform.DOMoveY(originYPos + 100, 0.5f))
+            .Append(transform.DOMoveY(originYPos, 0.5f))
             .Insert(0f, transform.DORotate(new Vector3(0, 720f, 0), 1.25f, RotateMode.FastBeyond360))
             .AppendCallback(() => sequence.Kill());
     }
