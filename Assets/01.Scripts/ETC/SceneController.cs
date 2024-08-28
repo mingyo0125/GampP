@@ -33,12 +33,14 @@ public class SceneController
         while (!op.isDone)
         {
             yield return new WaitForEndOfFrame();
-            Debug.Log(op.progress);
-            // 로딩이 거의 완료되었으면 SetReady 호출
+
             if (op.progress >= 0.9f && isLoading)
             {
+                yield return new WaitForSeconds(2f);
                 loadingFinAction?.Invoke();
                 isLoading = false;
+
+                if (!LobbyManager.Instance.ClientInfo.IsServer) { yield break; }
 
                 yield return new WaitForSeconds(2f);
                 // 이거는 모든 유저 다 되면 되도록 바꾸고

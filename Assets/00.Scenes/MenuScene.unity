@@ -7747,6 +7747,7 @@ GameObject:
   - component: {fileID: 988633768}
   - component: {fileID: 988633767}
   - component: {fileID: 988633766}
+  - component: {fileID: 988633769}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -7833,6 +7834,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &988633769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988633765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b201a9238ec05d848a015cdc294dedda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &995567941
 GameObject:
   m_ObjectHideFlags: 0
@@ -9672,6 +9685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1179058159}
+  - component: {fileID: 1179058160}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -9696,6 +9710,18 @@ Transform:
   - {fileID: 263436885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179058160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179058158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b201a9238ec05d848a015cdc294dedda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1207632442
 GameObject:
   m_ObjectHideFlags: 0
@@ -10021,7 +10047,7 @@ GameObject:
   - component: {fileID: 1255075670}
   - component: {fileID: 1255075673}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SpawnDummyPlayersController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
