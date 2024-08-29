@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class SpawnDummyPlayersController : NetworkBehaviour
 {
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        Debug.Log("OnNetworkSpawn");
+    }
+
     [ClientRpc]
     private void SetPlayersMoveClientRpc()
     {

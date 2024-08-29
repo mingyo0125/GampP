@@ -12,9 +12,12 @@ public class LoadingScene : NetworkBehaviour
         _loadingText = FindAnyObjectByType<LoadingText>();
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        SceneController.LoadAddressableScene(this, SetReady);
+        base.OnNetworkSpawn();
+
+        Debug.Log("OnNetworkSpawn");
+        SceneManager.Instance.LoadAddressableScene(this, SetReady);
     }
 
     private void SetReady()

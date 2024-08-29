@@ -39,8 +39,8 @@ public class DummyPlayer : MonoBehaviour
                 {
                     UIManager.Instance.SceneFadeIn(() =>
                     {
-                        SceneController.SetNextLoadGameScene("City"); // 바꾸면 이것도 바꾸시고
-                        SceneController.LoadScene("CityLoadingScene"); // 이거 나중에 맵 선택하는걸로 바꾸셈
+                        SceneManager.Instance.SetNextLoadGameScene("City"); // 바꾸면 이것도 바꾸시고
+                        SceneManager.Instance.LoadScene("CityLoadingScene"); // 이거 나중에 맵 선택하는걸로 바꾸셈
                     });
                 });
             });
