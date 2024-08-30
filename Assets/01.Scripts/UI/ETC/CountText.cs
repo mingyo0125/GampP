@@ -7,6 +7,9 @@ using UnityEngine;
 public class CountText : MonoBehaviour
 {
     private string[] textInfos = new string[4] { "3", "2", "1", "Go!" };
+    [SerializeField]
+    private Color[] _textOutlineColors = new Color[4];
+
 
     TextMeshProUGUI _countTextl;
 
@@ -31,6 +34,7 @@ public class CountText : MonoBehaviour
         {
             string info = textInfos[i];
 
+            _countTextl.outlineColor = _textOutlineColors[i];
             _countTextl.SetText(info);
             _countTextl.transform.DOScale(Vector3.one, tweenTime).SetEase(Ease.OutBack);
             _countTextl.transform.rotation = Quaternion.identity;
