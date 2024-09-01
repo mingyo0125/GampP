@@ -80,6 +80,16 @@ public class SceneManager : MonoSingleTon<SceneManager>
     {
         if (LobbyManager.Instance.ClientInfo.IsServer)
         {
+            //CoroutineUtil.CallWaitForSeconds(1f, () =>
+            //{
+            //    UIManager.Instance.SceneFadeIn(() =>
+            //    {
+            //        _asyncOperation.allowSceneActivation = true;
+            //        _asyncOperation = null;
+            //        LoadScene(NextScene);
+            //    });
+            //});
+
             UIManager.Instance.SceneFadeIn(() =>
             {
                 _asyncOperation.allowSceneActivation = true;

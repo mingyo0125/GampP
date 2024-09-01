@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void GenerateMap(Vector3 triggerPos);
+public delegate void GameStart();
 
 
 public static class SignalHub
 {
-    public static GenerateMap OnGenerateMapEvent;
+    public static GameStart OnGameStartEvent;
 
 }
