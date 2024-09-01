@@ -56,19 +56,13 @@ public class SceneManager : MonoSingleTon<SceneManager>
 
                 yield return new WaitForSeconds(2f);
 
-                Debug.Log($"{clientsReady.Count}: {NetworkManager.Singleton.ConnectedClientsList.Count}");
-
                 if (LobbyManager.Instance.ClientInfo.IsServer)
                 {
                     Debug.Log(NetworkManager.Singleton.ConnectedClientsList.Count);
                     // 모든 클라이언트가 준비되었는지 확인
                     if (clientsReady.Count == NetworkManager.Singleton.ConnectedClientsList.Count - 1)
                     {
-                        UIManager.Instance.SceneFadeIn(() =>
-                        {
-                            ActiveAllowSceneActivationClientRpc();
-                            LoadScene(NextScene);
-                        });
+                        ActiveAllowSceneActivationClientRpc();
                     }
                 }
             }
@@ -78,14 +72,28 @@ public class SceneManager : MonoSingleTon<SceneManager>
     [ServerRpc(RequireOwnership = false)]
     private void NotifyClientReadyServerRpc(ServerRpcParams rpcParams = default)
     {
-        Debug.Log("?!");
         clientsReady.Add(rpcParams.Receive.SenderClientId);
     }
 
     [ClientRpc]
     private void ActiveAllowSceneActivationClientRpc()
     {
-        _asyncOperation.allowSceneActivation = true;
-        _asyncOperation = null;
+        if (LobbyManager.Instance.ClientInfo.IsServer)
+        {
+            UIManager.Instance.SceneFadeIn(() =>
+            {
+                _asyncOperation.allowSceneActivation = true;
+                _asyncOperation = null;
+                LoadScene(NextScene);
+            });
+        }
+        else
+        {
+            UIManager.Instance.SceneFadeIn(() =>
+            {
+                _asyncOperation.allowSceneActivation = true;
+                _asyncOperation = null;
+            });
+        }
     }
 }

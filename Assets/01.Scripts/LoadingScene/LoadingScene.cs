@@ -16,7 +16,6 @@ public class LoadingScene : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        Debug.Log("OnNetworkSpawn");
         SceneManager.Instance.LoadAddressableScene(this, SetReady);
     }
 

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CarSpawner : MonoBehaviour
+public class CarSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject _carPrefab;
 
     private void SpawnCar()
     {
-        Instantiate(_carPrefab, transform.position, transform.rotation);
+        GameObject spawnCar = Instantiate(_carPrefab, transform.position, transform.rotation);
     }
 
     [ClientRpc]
@@ -21,7 +21,7 @@ public class CarSpawner : MonoBehaviour
 
     private void Update()
     {
-        //if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
+        if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
         if(Input.GetKeyDown(KeyCode.S))
         {
             SpawnCarClientRpc();

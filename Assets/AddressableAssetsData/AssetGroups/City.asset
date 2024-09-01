@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 8b0649291948c9f4eaafe67d53f97805
-  m_SerializeEntries:
-  - m_GUID: 7e6d3f4e5d896154ab4438845532ac3e
-    m_Address: Assets/00.Scenes/City/City.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 405bf8f0a0a94a443bba805e6858d8f9, type: 2}
   m_SchemaSet:

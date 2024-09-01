@@ -169,7 +169,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
                 if (_joinedLobby == null||
                     LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id) == null)
                 {
-                    Debug.Log("a");
                     ReSetLobby();
                 }
             }

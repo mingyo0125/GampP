@@ -3975,7 +3975,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -4521,6 +4521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 200351850}
   - component: {fileID: 200351851}
+  - component: {fileID: 200351852}
   m_Layer: 0
   m_Name: CarSpawner (9)
   m_TagString: Untagged
@@ -4556,6 +4557,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &200351852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200351849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3957641917
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &207334892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7684,6 +7706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370938399}
   - component: {fileID: 370938400}
+  - component: {fileID: 370938401}
   m_Layer: 0
   m_Name: CarSpawner (7)
   m_TagString: Untagged
@@ -7719,6 +7742,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &370938401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370938398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1180542918
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &371589498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11029,7 +11073,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -12273,6 +12317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 615421227}
+  - component: {fileID: 615421229}
   - component: {fileID: 615421228}
   m_Layer: 0
   m_Name: CarSpawner (1)
@@ -12309,6 +12354,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &615421229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615421226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3163696833
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &616007475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15485,7 +15551,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -16278,7 +16344,7 @@ MonoBehaviour:
   m_text: 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
-  m_sharedMaterial: {fileID: 4241014827211239622, guid: 514150b9edcbfad4f94395fd0d7492c6, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 32f1ca4be7520664287c7a549ed13239, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16609,6 +16675,7 @@ GameObject:
   m_Component:
   - component: {fileID: 814792203}
   - component: {fileID: 814792204}
+  - component: {fileID: 814792205}
   m_Layer: 0
   m_Name: CarSpawner (2)
   m_TagString: Untagged
@@ -16644,6 +16711,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &814792205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814792202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1176631854
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &819537282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17110,6 +17198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 833931306}
   - component: {fileID: 833931307}
+  - component: {fileID: 833931308}
   m_Layer: 0
   m_Name: CarSpawner (8)
   m_TagString: Untagged
@@ -17145,6 +17234,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &833931308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833931305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3931196667
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &838187462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18404,6 +18514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 882924696}
+  - component: {fileID: 882924697}
   - component: {fileID: 882924695}
   m_Layer: 0
   m_Name: CarSpawner
@@ -18440,6 +18551,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2137288119}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &882924697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882924694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3775965767
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &884854962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20041,6 +20173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 984897193}
   - component: {fileID: 984897194}
+  - component: {fileID: 984897195}
   m_Layer: 0
   m_Name: CarSpawner (3)
   m_TagString: Untagged
@@ -20076,6 +20209,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &984897195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984897192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 681892488
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &989467892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21506,7 +21660,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -23774,7 +23928,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -25009,7 +25163,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -26639,6 +26793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1280188894}
   - component: {fileID: 1280188895}
+  - component: {fileID: 1280188896}
   m_Layer: 0
   m_Name: CarSpawner (4)
   m_TagString: Untagged
@@ -26674,6 +26829,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &1280188896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280188893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3964453209
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1280842096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27042,7 +27218,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -32274,6 +32450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1507642924}
   - component: {fileID: 1507642925}
+  - component: {fileID: 1507642926}
   m_Layer: 0
   m_Name: CarSpawner (6)
   m_TagString: Untagged
@@ -32309,6 +32486,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &1507642926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507642923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3815267915
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1527498726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32373,6 +32571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1529634578}
   - component: {fileID: 1529634579}
+  - component: {fileID: 1529634580}
   m_Layer: 0
   m_Name: CarSpawner (5)
   m_TagString: Untagged
@@ -32408,6 +32607,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carPrefab: {fileID: 7173520039614684905, guid: 8a07c9c7252e6c04f97ab05afcc3c5f1, type: 3}
+--- !u!114 &1529634580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529634577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1148342009
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1532056469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35898,13 +36118,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704015169}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0, y: 0.60218614, z: -0, w: 0.7983557}
+  m_LocalPosition: {x: 0, y: 15.77, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 74.053, z: 0}
 --- !u!114 &1704015175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45523,7 +45743,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
