@@ -22,7 +22,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Movement(Vector2 inputPos)
     {
-        Vector3 targetVec = new Vector3(inputPos.x, 0, inputPos.y);
+        Vector3 targetVec = new Vector3(inputPos.y, 0, inputPos.x).normalized;
         _playerMovement.SetMovementVelocity(targetVec);
     }
 

@@ -17,7 +17,7 @@ public class PlayerNetWork : NetworkBehaviour
     private void Awake()
     {
         _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
-        _virtualCamera = transform.parent.Find("PlayerFollowCam").GetComponent<CinemachineVirtualCamera>();
+        //_virtualCamera = transform.parent.Find("PlayerFollowCam").GetComponent<CinemachineVirtualCamera>();
         _audioListener = transform.parent.Find("Camera").GetComponent<AudioListener>();
     }
 
@@ -25,12 +25,12 @@ public class PlayerNetWork : NetworkBehaviour
     {
         if(IsOwner)
         {
-            _virtualCamera.Priority = 1;
+            //_virtualCamera.Priority = 1;
             _audioListener.enabled = true;
         }
         else
         {
-            _virtualCamera.Priority = 0;
+            //_virtualCamera.Priority = 0;
             _audioListener.enabled = false;
         }
     }
@@ -42,7 +42,7 @@ public class PlayerNetWork : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner) { return; }
+        //if (!IsOwner) { return; }
         _playerMovement.Move();
     }
 }

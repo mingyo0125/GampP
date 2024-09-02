@@ -24,6 +24,7 @@ public class InputReader : ScriptableObject, Controls.IPlayerActionsActions
         if(context.performed)
         {
             Vector2 inputVec = context.ReadValue<Vector2>();
+            inputVec.x *= -1;
             OnMovementEvent?.Invoke(inputVec);
         }
 

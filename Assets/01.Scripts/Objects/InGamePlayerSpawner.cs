@@ -32,7 +32,7 @@ public class InGamePlayerSpawner : PlayerSpawner
 
     protected override GameObject SpawnPlayer(ulong clientId)
     {
-        GameObject player = base.SpawnPlayer(clientId);
+        GameObject player = Instantiate(gameObject, _playerSpawnedPoint.position, Quaternion.identity);
         player.GetComponent<NetworkObject>().Spawn();
         return player;
     }
