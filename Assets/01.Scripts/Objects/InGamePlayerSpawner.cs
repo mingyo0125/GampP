@@ -14,12 +14,6 @@ public class InGamePlayerSpawner : PlayerSpawner
         NetworkManager.Singleton.SceneManager.OnLoadComplete += _inGameSceneLoadCompleteCallback;
     }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        SubscribeCallbacks();
-    }
-
     protected override void Awake()
     {
         // 여기서 로비를 없애야 하나? 플레이 중일때 들어올 수도 있으니까. 일단 대기

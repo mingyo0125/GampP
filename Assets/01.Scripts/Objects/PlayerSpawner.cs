@@ -23,6 +23,12 @@ public abstract class PlayerSpawner : NetworkBehaviour
         return player;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        SubscribeCallbacks();
+    }
+
     protected virtual void SubscribeCallbacks() { }
 
 }

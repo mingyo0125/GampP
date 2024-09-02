@@ -28,6 +28,7 @@ public class DummyPlayerSpawner : PlayerSpawner
 
     private void OnClientConnected(ulong clientId)
     {
+        Debug.Log(NetworkManager.Singleton.ConnectedClients.Count);
         if (IsServer && NetworkManager.Singleton.ConnectedClients.Count >= 2)
         {
             SpawnDummyPlayerClientRpc(clientId);
