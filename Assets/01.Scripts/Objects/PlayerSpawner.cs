@@ -13,11 +13,6 @@ public abstract class PlayerSpawner : NetworkBehaviour
     protected virtual void Start() { }
     protected virtual void Awake() { }
 
-    protected virtual void OnEnable()
-    {
-        CoroutineUtil.CallWaitForSeconds(1f, () => SubscribeCallbacks());
-    }
-
     protected virtual GameObject SpawnPlayer(ulong clientId)
     {
         Vector3 playerPos = _playerSpawnedPoint.position;
