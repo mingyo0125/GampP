@@ -8,4 +8,9 @@ public class SignalHubInvoker : MonoBehaviour
     {
         SignalHub.OnGameStartEvent?.Invoke();
     }
+
+    public void CountStart()
+    {
+        SignalHub.OnCountStartEvent?.Invoke();
+    }
 }

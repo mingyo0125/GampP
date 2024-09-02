@@ -58,7 +58,6 @@ public class SceneManager : MonoSingleTon<SceneManager>
 
                 if (LobbyManager.Instance.ClientInfo.IsServer)
                 {
-                    Debug.Log(NetworkManager.Singleton.ConnectedClientsList.Count);
                     // 모든 클라이언트가 준비되었는지 확인
                     if (clientsReady.Count == NetworkManager.Singleton.ConnectedClientsList.Count - 1)
                     {

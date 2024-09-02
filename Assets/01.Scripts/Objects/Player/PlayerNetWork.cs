@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,12 +13,13 @@ public class PlayerNetWork : NetworkBehaviour
     private Camera _camera;
     private AudioListener _audioListener;
 
+    private bool isOwner;
+    private ulong clientId;
+
     #endregion
 
     private void Awake()
     {
-        _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
-
         Transform camera = transform.Find("Camera");
         _camera = camera.GetComponent<Camera>();
         _audioListener = camera.GetComponent<AudioListener>();
@@ -27,16 +29,40 @@ public class PlayerNetWork : NetworkBehaviour
     {
         _camera.enabled = false;
         _audioListener.enabled = false;
-    }
 
-    private void Update()
-    {
-        if (!IsOwner) { return; }
+        SignalHub.OnCountStartEvent += SetEnableCamera;
+        SignalHub.OnGameStartEvent += SetEnableMovement;
     }
 
     private void FixedUpdate()
     {
-        if (!IsOwner) { return; }
-        _playerMovement.Move();
+        if (!isOwner) { return; }
+        _playerMovement?.Move();
+    }
+
+    private void SetEnableCamera()
+    {
+        isOwner = clientId == NetworkManager.Singleton.LocalClientId;
+
+        Debug.Log(isOwner);
+
+        _camera.enabled = isOwner;
+        _audioListener.enabled = isOwner;
+    }
+
+    private void SetEnableMovement()
+    {
+        _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
+    }
+
+    private void OnDisable()
+    {
+        SignalHub.OnCountStartEvent -= SetEnableCamera;
+        SignalHub.OnGameStartEvent -= SetEnableMovement;
+    }
+
+    public void SetClientid(ulong clientid)
+    {
+        clientId = clientid;
     }
 }
