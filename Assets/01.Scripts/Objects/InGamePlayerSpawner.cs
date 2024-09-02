@@ -21,12 +21,11 @@ public class InGamePlayerSpawner : PlayerSpawner
 
     private void OnInGameSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-        if (!IsServer) { return; }
+        if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
 
-        foreach (ulong connectedClientsId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            SpawnPlayer(connectedClientsId);
-        }
+        Debug.Log(clientId);
+
+        SpawnPlayer(clientId);
     }
 
     protected override GameObject SpawnPlayer(ulong clientId)

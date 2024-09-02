@@ -9,7 +9,7 @@ public class PlayerNetWork : NetworkBehaviour
     #region PlayerComponents
 
     private PlayerMovement _playerMovement;
-    private CinemachineVirtualCamera _virtualCamera;
+    private Camera _camera;
     private AudioListener _audioListener;
 
     #endregion
@@ -17,22 +17,16 @@ public class PlayerNetWork : NetworkBehaviour
     private void Awake()
     {
         _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
-        //_virtualCamera = transform.parent.Find("PlayerFollowCam").GetComponent<CinemachineVirtualCamera>();
-        _audioListener = transform.parent.Find("Camera").GetComponent<AudioListener>();
+
+        Transform camera = transform.Find("Camera");
+        _camera = camera.GetComponent<Camera>();
+        _audioListener = camera.GetComponent<AudioListener>();
     }
 
     public override void OnNetworkSpawn()
     {
-        if(IsOwner)
-        {
-            //_virtualCamera.Priority = 1;
-            _audioListener.enabled = true;
-        }
-        else
-        {
-            //_virtualCamera.Priority = 0;
-            _audioListener.enabled = false;
-        }
+        _camera.enabled = false;
+        _audioListener.enabled = false;
     }
 
     private void Update()
@@ -42,7 +36,7 @@ public class PlayerNetWork : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        //if (!IsOwner) { return; }
+        if (!IsOwner) { return; }
         _playerMovement.Move();
     }
 }
