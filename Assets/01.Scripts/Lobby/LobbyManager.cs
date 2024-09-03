@@ -45,15 +45,15 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            LobbiesList();
-        }
+        //if(Input.GetKeyDown(KeyCode.K))
+        //{
+        //    LobbiesList();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            PrintPlayer(_joinedLobby);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    PrintPlayer(_joinedLobby);
+        //}
     }
 
     public async void CreateLobby()

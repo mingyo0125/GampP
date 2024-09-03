@@ -12,7 +12,7 @@ public class PlayerInput : MonoBehaviour
     {
         _inputReader.OnMovementEvent += Movement;
 
-        _playerMovement = transform.Find("Visual").GetComponent<PlayerMovement>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void OnDestroy()

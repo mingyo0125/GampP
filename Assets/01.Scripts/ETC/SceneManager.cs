@@ -52,6 +52,7 @@ public class SceneManager : MonoSingleTon<SceneManager>
                 if (!LobbyManager.Instance.ClientInfo.IsServer)
                 {
                     NotifyClientReadyServerRpc();
+                    yield break;
                 }
 
                 yield return new WaitForSeconds(2f);

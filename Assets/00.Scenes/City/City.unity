@@ -2169,7 +2169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpawnedPoint: {fileID: 1923726099}
-  _playerPrefab: {fileID: 117259609579797795, guid: 1257853924374d54cb12fbacae4e6d25, type: 3}
+  _playerPrefab: {fileID: 4106624731483859528, guid: 2b7b11e5b6b8d8f45a7073d634805524, type: 3}
 --- !u!114 &85985998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40803,7 +40803,7 @@ GameObject:
   m_Layer: 0
   m_Name: PlayerSpawnPoints
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -40816,7 +40816,7 @@ Transform:
   m_GameObject: {fileID: 1923726098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 185.5}
+  m_LocalPosition: {x: 4, y: 0, z: 185.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

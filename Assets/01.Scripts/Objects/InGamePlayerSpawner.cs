@@ -23,16 +23,15 @@ public class InGamePlayerSpawner : PlayerSpawner
     {
         if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
 
-        Debug.Log(clientId);
-
         SpawnPlayer(clientId);
     }
 
     protected override GameObject SpawnPlayer(ulong clientId)
     {
         GameObject player = Instantiate(_playerPrefab, _playerSpawnedPoint.position, Quaternion.identity);
+        player.transform.position -= new Vector3(2 * clientId, 0, 0);
         player.GetComponent<NetworkObject>().Spawn();
-        player.transform.Find("Player").GetComponent<PlayerNetWork>().SetClientid(clientId);
+        player.GetComponent<PlayerNetWork>().SetClientidClientRpc(clientId);
         return player;
     }
 }

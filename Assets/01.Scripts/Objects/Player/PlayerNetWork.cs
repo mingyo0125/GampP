@@ -61,7 +61,8 @@ public class PlayerNetWork : NetworkBehaviour
         SignalHub.OnGameStartEvent -= SetEnableMovement;
     }
 
-    public void SetClientid(ulong clientid)
+    [ClientRpc]
+    public void SetClientidClientRpc(ulong clientid)
     {
         clientId = clientid;
     }
