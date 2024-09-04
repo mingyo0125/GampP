@@ -14,9 +14,11 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 {
     [SerializeField]
     private int maxPlayerCount;
+    public int MaxPlayerCount => maxPlayerCount;
 
     private Lobby _hostLobby = null;
     private Lobby _joinedLobby = null;
+    public Lobby JoinedLobby => _joinedLobby;
 
     private float heartbeatTimer;
     private float lobbyUpdateTimer;
@@ -172,9 +174,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
                     ReSetLobby();
                 }
             }
-
-            // 이거 로비에서만 돌리게
-            UpdateLobbyUI();
         }
     }
 
@@ -204,7 +203,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
 
             // 플레이어 정보 출력
             PrintPlayer(lobby);
-            UpdateLobbyUI();
 
             return true;
         }
@@ -370,17 +368,6 @@ public class LobbyManager : MonoSingleTon<LobbyManager>
     //        Debug.LogError(ex);
     //    }
     //}
-
-    private void UpdateLobbyUI()
-    {
-        // 로비씬에서만 하게 바꾸셈
-        try
-        {
-            UIManager.Instance.UpdateText("PlayUILobbyCode_Text", _joinedLobby.LobbyCode);
-            string PlayerCountText = "Player : " + _joinedLobby.Players.Count.ToString() + '/' + maxPlayerCount;
-        }
-        catch { }
-    }
 
     private void ReSetLobby()
     {
