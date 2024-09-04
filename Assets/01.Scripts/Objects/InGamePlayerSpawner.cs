@@ -5,32 +5,30 @@ using static Unity.Netcode.NetworkSceneManager;
 
 public class InGamePlayerSpawner : PlayerSpawner
 {
-    private OnLoadCompleteDelegateHandler _inGameSceneLoadCompleteCallback;
-
-    protected override void SubscribeCallbacks()
+    public override void OnNetworkSpawn()
     {
-        _inGameSceneLoadCompleteCallback = null;
-        _inGameSceneLoadCompleteCallback += OnInGameSceneLoadComplete;
-        NetworkManager.Singleton.SceneManager.OnLoadComplete += _inGameSceneLoadCompleteCallback;
+        base.OnNetworkSpawn();
+        
     }
 
-    protected override void Awake()
+    protected override void Start()
     {
-        // 여기서 로비를 없애야 하나? 플레이 중일때 들어올 수도 있으니까. 일단 대기
-    }
-
-    private void OnInGameSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-    {
+        base.Start();
+        Debug.Log("Start");
         if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
+        Debug.Log(NetworkManager.LocalClientId);
 
-        SpawnPlayer(clientId);
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            SpawnPlayer(clientId);
+        }
     }
 
     protected override GameObject SpawnPlayer(ulong clientId)
     {
         GameObject player = Instantiate(_playerPrefab, _playerSpawnedPoint.position, Quaternion.identity);
         player.transform.position -= new Vector3(2 * clientId, 0, 0);
-        player.GetComponent<NetworkObject>().Spawn();
+        player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
         player.transform.Find("Player").GetComponent<PlayerNetWork>().SetClientidClientRpc(clientId);
         return player;
     }

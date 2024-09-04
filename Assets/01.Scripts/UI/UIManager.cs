@@ -79,7 +79,7 @@ public class UIManager : MonoSingleTon<UIManager>
         (bool, UIView) ui = GetStaticUI(uiName);
         if (!ui.Item1) { return; }
 
-        if (isFade) { FadeIn(ui.Item2.CanvasGroupCompo, uiFadeTime); }
+        if (isFade) { FadeOut(ui.Item2.CanvasGroupCompo, uiFadeTime); }
         else { ui.Item2.gameObject.SetActive(true); }
 
         _curActiveUIs.Add(uiName, ui.Item2);
@@ -127,14 +127,14 @@ public class UIManager : MonoSingleTon<UIManager>
         }
         else
         {
-            if (isFade) { FadeOut(ui.Item2.CanvasGroupCompo, uiFadeTime); }
+            if (isFade) { FadeIn(ui.Item2.CanvasGroupCompo, uiFadeTime); }
             else { ui.Item2.gameObject.SetActive(false); }
         }
 
         _curActiveUIs.Remove(uiName);
     }
 
-    public Tween FadeIn(CanvasGroup canvasGroup, float fadeTime, Action action = null)
+    public Tween FadeOut(CanvasGroup canvasGroup, float fadeTime, Action action = null)
     {
         canvasGroup.DOKill();
         canvasGroup.alpha = 0.0f;
@@ -146,17 +146,17 @@ public class UIManager : MonoSingleTon<UIManager>
         });
     }
 
-    public void SceneFadeIn(Action FadeFinAction = null)
+    public void SceneFadeOut(Action FadeFinAction = null)
     {
         CanvasGroup fadeImage = GameObject.Find("Fade_Image").GetComponent<CanvasGroup>();
         //fadeImage.gameObject.name = "Fading"; // 여러번 될 수도 있으니까 이름을 바꿔버려서 다음에는 못 찾게
-        FadeIn(fadeImage, 1.5f, () =>
+        FadeOut(fadeImage, 1.5f, () =>
         {
             FadeFinAction?.Invoke();
         });
     }
 
-    public Tween FadeOut(CanvasGroup canvasGroup, float fadeTime, Action action = null)
+    public Tween FadeIn(CanvasGroup canvasGroup, float fadeTime, Action action = null)
     {
         canvasGroup.DOKill();
         canvasGroup.alpha = 1.0f;
@@ -175,12 +175,12 @@ public class UIManager : MonoSingleTon<UIManager>
 
         UIView warningpannel = GetStaticUI("Warning_Panel").Item2;
 
-        FadeIn(warningpannel.CanvasGroupCompo, uiFadeTime)
+        FadeOut(warningpannel.CanvasGroupCompo, uiFadeTime)
             .OnComplete(() =>
             {
                 DOVirtual.DelayedCall(1f, () =>
                 {
-                    FadeOut(warningpannel.CanvasGroupCompo, uiFadeTime);
+                    FadeIn(warningpannel.CanvasGroupCompo, uiFadeTime);
                 });
             });
     }

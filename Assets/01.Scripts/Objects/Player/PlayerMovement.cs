@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _charController = transform.parent.GetComponent<CharacterController>();
+        _charController = transform.root.GetComponent<CharacterController>();
         _animator = GetComponent<PlayerAnimator>();
         //_controller = GetComponent<AgentController>();
     }
@@ -80,8 +80,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = _movementVelocity + verticalVelocity * Vector3.up;
         _charController.Move(move);
 
-        Debug.Log("Sex"); 
-        
+        Debug.Log(transform.position);
+
         //_agentAnimator?.SetAirbone(!_charController.isGrounded);
     }
 

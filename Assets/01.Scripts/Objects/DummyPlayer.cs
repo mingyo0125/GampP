@@ -37,7 +37,7 @@ public class DummyPlayer : MonoBehaviour
                 _playerAnimator.SetSpeed(10);
                 CoroutineUtil.CallWaitForSeconds(1.5f, () =>
                 {
-                    UIManager.Instance.SceneFadeIn(() =>
+                    UIManager.Instance.SceneFadeOut(() =>
                     {
                         SceneManager.Instance.SetNextLoadGameScene("City"); // 바꾸면 이것도 바꾸시고
                         SceneManager.Instance.LoadScene("CityLoadingScene"); // 이거 나중에 맵 선택하는걸로 바꾸셈

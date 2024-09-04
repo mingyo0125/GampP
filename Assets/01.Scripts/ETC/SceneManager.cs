@@ -37,9 +37,11 @@ public class SceneManager : MonoSingleTon<SceneManager>
         _asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(nextScene);
         _asyncOperation.allowSceneActivation = false;
         bool isLoading = true;
-        while (!_asyncOperation.isDone)
+        while (_asyncOperation != null)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
+
+            if (_asyncOperation == null) { yield break; }
 
             if (_asyncOperation.progress >= 0.9f && isLoading)
             {
@@ -80,21 +82,15 @@ public class SceneManager : MonoSingleTon<SceneManager>
     {
         if (LobbyManager.Instance.ClientInfo.IsServer)
         {
-            //CoroutineUtil.CallWaitForSeconds(0.8f, () =>
-            //{
-
-            //});
-
-            UIManager.Instance.SceneFadeIn(() =>
+            UIManager.Instance.SceneFadeOut(() =>
             {
                 _asyncOperation.allowSceneActivation = true;
                 _asyncOperation = null;
-                LoadScene(NextScene);
             });
         }
         else
         {
-            UIManager.Instance.SceneFadeIn(() =>
+            UIManager.Instance.SceneFadeOut(() =>
             {
                 _asyncOperation.allowSceneActivation = true;
                 _asyncOperation = null;
