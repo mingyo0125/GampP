@@ -31,7 +31,7 @@ public class InGamePlayerSpawner : PlayerSpawner
         GameObject player = Instantiate(_playerPrefab, _playerSpawnedPoint.position, Quaternion.identity);
         player.transform.position -= new Vector3(2 * clientId, 0, 0);
         player.GetComponent<NetworkObject>().Spawn();
-        player.GetComponent<PlayerNetWork>().SetClientidClientRpc(clientId);
+        player.transform.Find("Player").GetComponent<PlayerNetWork>().SetClientidClientRpc(clientId);
         return player;
     }
 }
