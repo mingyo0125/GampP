@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerNetWork : NetworkBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerNetWork : NetworkBehaviour
     private PlayerMovement _playerMovement;
     private Camera _camera;
     private AudioListener _audioListener;
+    private Image _playerPointCursor;
 
     private bool isOwner;
     private ulong clientId;
@@ -23,12 +25,15 @@ public class PlayerNetWork : NetworkBehaviour
         Transform camera = transform.Find("Camera");
         _camera = camera.GetComponent<Camera>();
         _audioListener = camera.GetComponent<AudioListener>();
+
+        _playerPointCursor = transform.parent.Find("Canvas/PlayerPointCursor").GetComponent<Image>();
     }
 
     public override void OnNetworkSpawn()
     {
         _camera.enabled = false;
         _audioListener.enabled = false;
+        _playerPointCursor.enabled = false;
 
         SignalHub.OnCountStartEvent += SetEnableCamera;
         SignalHub.OnGameStartEvent += SetEnableMovement;
@@ -46,6 +51,7 @@ public class PlayerNetWork : NetworkBehaviour
 
         Debug.Log(isOwner);
 
+        _playerPointCursor.enabled = isOwner;
         _camera.enabled = isOwner;
         _audioListener.enabled = isOwner;
     }
