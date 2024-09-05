@@ -15,20 +15,19 @@ public class CarSpawner : NetworkBehaviour
         StartCoroutine(SetSpawnTimeValue());
     }
 
-    public override void OnNetworkSpawn()
+    private void Awake()
     {
-        base.OnNetworkSpawn();
         randomSpawnTime.OnValueChanged += SpawnCar;
         if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
-
         SignalHub.OnGameStartEvent += StartSpawnCar;
     }
 
     private IEnumerator SetSpawnTimeValue()
     {
+        Debug.Log("SetSpawnTimeValue");
         while (true)
         {
-            randomSpawnTime.Value = Random.Range(2, 8f);
+            randomSpawnTime.Value = Random.Range(2, 5f);
 
             yield return new WaitForSeconds(randomSpawnTime.Value);
         }

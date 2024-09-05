@@ -15,8 +15,8 @@ public class Car : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 moveVec = transform.forward * Time.fixedDeltaTime * 20;
+        Vector3 moveVec = transform.forward * 20;
 
-        _rigidbody.Move(moveVec, Quaternion.identity);
+        _rigidbody.velocity = moveVec;
     }
 }
