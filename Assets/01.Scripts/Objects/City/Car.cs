@@ -11,6 +11,7 @@ public class Car : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.useGravity = false;
     }
 
     private void FixedUpdate()
