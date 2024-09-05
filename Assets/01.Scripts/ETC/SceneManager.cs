@@ -84,6 +84,7 @@ public class SceneManager : MonoSingleTon<SceneManager>
         {
             UIManager.Instance.SceneFadeOut(() =>
             {
+                LoadScene(nextScene);
                 _asyncOperation.allowSceneActivation = true;
                 _asyncOperation = null;
             });

@@ -9,38 +9,49 @@ public class CarSpawner : NetworkBehaviour
     private GameObject[] _carPrefabs;
 
     private NetworkVariable<float> randomSpawnTime = new NetworkVariable<float>();
+    private NetworkVariable<int> randomSpawnIdx = new NetworkVariable<int>();
+
+    public override void OnNetworkSpawn()
+    {
+        if (LobbyManager.Instance.ClientInfo.IsServer)
+        {
+            StartSpawnCar();
+        }
+
+        randomSpawnTime.OnValueChanged += SpawnCar;
+        randomSpawnIdx.OnValueChanged += SetRandomSpawn;
+    }
 
     private void StartSpawnCar()
     {
         StartCoroutine(SetSpawnTimeValue());
     }
 
-    private void Awake()
-    {
-        randomSpawnTime.OnValueChanged += SpawnCar;
-        if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
-        StartSpawnCar();
-    }
-
     private IEnumerator SetSpawnTimeValue()
     {
-        Debug.Log("SetSpawnTimeValue");
         while (true)
         {
-            randomSpawnTime.Value = Random.Range(2, 5f);
-
-            yield return new WaitForSeconds(randomSpawnTime.Value);
+            randomSpawnIdx.Value = Random.Range(0, _carPrefabs.Length);
+            yield return new WaitForSeconds(0.1f);
+            randomSpawnTime.Value = Random.Range(2f, 5f);
+            yield return new WaitForSeconds(randomSpawnTime.Value - 0.1f);
         }
+    }
+
+    private void SetRandomSpawn(int oldValue, int newValue)
+    {
+        Debug.Log("SetRandomSpawn");
     }
 
     private void SpawnCar(float oldValue, float newValue)
     {
-        int randomcarIdx = Random.Range(0, _carPrefabs.Length - 1);
-        GameObject spawnCar = Instantiate(_carPrefabs[randomcarIdx], transform.position, transform.rotation);
+        Debug.Log("SpawnCar");
+        Instantiate(_carPrefabs[randomSpawnIdx.Value], transform.position, transform.rotation);
     }
 
     private void OnDisable()
     {
         randomSpawnTime.OnValueChanged -= SpawnCar;
+        randomSpawnIdx.OnValueChanged -= SetRandomSpawn;
     }
 }
