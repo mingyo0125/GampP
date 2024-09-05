@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class Car : MonoBehaviour
 {
-    CharacterController _characterController;
+    Rigidbody _rigidbody;
 
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
         Vector3 moveVec = transform.forward * Time.fixedDeltaTime * 20;
 
-        _characterController.Move(moveVec);
+        _rigidbody.Move(moveVec, Quaternion.identity);
     }
 }

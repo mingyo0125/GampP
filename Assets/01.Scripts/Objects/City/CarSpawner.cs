@@ -6,7 +6,7 @@ using UnityEngine;
 public class CarSpawner : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject _carPrefab;
+    private GameObject[] _carPrefabs;
 
     private NetworkVariable<float> randomSpawnTime = new NetworkVariable<float>();
 
@@ -36,7 +36,8 @@ public class CarSpawner : NetworkBehaviour
 
     private void SpawnCar(float oldValue, float newValue)
     {
-        GameObject spawnCar = Instantiate(_carPrefab, transform.position, transform.rotation);
+        int randomcarIdx = Random.Range(0, _carPrefabs.Length - 1);
+        GameObject spawnCar = Instantiate(_carPrefabs[randomcarIdx], transform.position, transform.rotation);
     }
 
     private void OnDisable()

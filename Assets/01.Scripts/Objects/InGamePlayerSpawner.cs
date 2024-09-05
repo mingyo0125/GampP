@@ -26,7 +26,7 @@ public class InGamePlayerSpawner : PlayerSpawner
 
     protected override GameObject SpawnPlayer(ulong clientId)
     {
-        GameObject player = Instantiate(_playerPrefab, _playerSpawnedPoint.position, Quaternion.Euler(0,180,0));
+        GameObject player = Instantiate(_playerPrefab, _playerSpawnedPoint.position, Quaternion.identity);
         player.transform.position -= new Vector3(2 * clientId, 0, 0);
         player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
         player.transform.Find("Player").GetComponent<PlayerNetWork>().SetClientidClientRpc(clientId);
