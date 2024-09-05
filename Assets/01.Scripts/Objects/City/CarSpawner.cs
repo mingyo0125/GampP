@@ -19,7 +19,7 @@ public class CarSpawner : NetworkBehaviour
     {
         randomSpawnTime.OnValueChanged += SpawnCar;
         if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
-        SignalHub.OnGameStartEvent += StartSpawnCar;
+        StartSpawnCar();
     }
 
     private IEnumerator SetSpawnTimeValue()
@@ -42,6 +42,5 @@ public class CarSpawner : NetworkBehaviour
     private void OnDisable()
     {
         randomSpawnTime.OnValueChanged -= SpawnCar;
-        SignalHub.OnGameStartEvent -= StartSpawnCar;
     }
 }
