@@ -12,7 +12,11 @@ public class PlayerRespawnController : MonoBehaviour
     private void RespawnPlayer(Transform playerVisual, Vector3 spawnPoint)
     {
         transform.position = spawnPoint;
-        playerVisual.localScale = new Vector3(100, 100, 100);
+        EffectManager.Instance.PlayEffect(EffectName.PlayerSpawnEffect, spawnPoint);
+        CoroutineUtil.CallWaitForSeconds(0.3f, () =>
+        {
+            playerVisual.localScale = new Vector3(100, 100, 100);
+        });
     }
 
     private void OnDisable()
