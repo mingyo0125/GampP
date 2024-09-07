@@ -9524,7 +9524,7 @@ GameObject:
   - component: {fileID: 3384366999043453946}
   - component: {fileID: 3384366999043453947}
   m_Layer: 0
-  m_Name: Flash_blue_purple
+  m_Name: ClickEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

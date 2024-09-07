@@ -16,5 +16,7 @@ public abstract class UIButton : UIView
         _button.onClick.AddListener(() => ButtonEvent());
     }
 
-    protected abstract void ButtonEvent();
+    protected virtual void ButtonEvent()
+    {
+    }
 }

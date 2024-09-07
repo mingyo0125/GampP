@@ -10,6 +10,8 @@ public class UIJoinLobbyButton : UIButton
 
     protected async override void ButtonEvent()
     {
+        base.ButtonEvent();
+
         if (_inputText.text.Length != 7)
         {
             UIManager.Instance.ShowWarningText("코드가 올바른 형식이 아닙니다");

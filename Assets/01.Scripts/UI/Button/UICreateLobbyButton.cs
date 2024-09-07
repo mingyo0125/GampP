@@ -7,6 +7,8 @@ public class UICreateLobbyButton : UIButton
 {
     protected override void ButtonEvent()
     {
+        base.ButtonEvent();
+
         LobbyManager.Instance.CreateLobby();
         UIManager.Instance.HideUI("PlayUI");
         UIManager.Instance.HideUI("Lobby_Button");

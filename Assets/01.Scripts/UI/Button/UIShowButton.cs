@@ -15,7 +15,9 @@ public class UIShowButton : UIButton
 
     protected override void ButtonEvent()
     {
-        if(isPopUp)
+        base.ButtonEvent();
+
+        if (isPopUp)
         {
             UIManager.Instance.ShowUI(showUIName, _popUpTrm.position);
         }

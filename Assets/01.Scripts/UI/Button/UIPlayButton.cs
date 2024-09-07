@@ -20,8 +20,11 @@ public class UIPlayButton : UIButton
 
     protected override void ButtonEvent()
     {
+        base.ButtonEvent();
+
         _spawnDummyPlayersController.SetPlayersMove();
 
         UIManager.Instance.HideAll();
     }
 }
+
