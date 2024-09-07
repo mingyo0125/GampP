@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,33 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float gravity = -9.8f, speed = 5f, rotationSpeed;
+    private float speed = 5f, rotationSpeed;
 
-    private CharacterController _charController;
+    private Rigidbody _rigidbody;
     private PlayerAnimator _animator;
+    private SpawnPointReader _spawnPointReader;
 
     private Vector3 _movementVelocity;
     public Vector3 MovementVelocity => _movementVelocity;
     private float verticalVelocity;
     private Vector3 _inputVelocity;
 
-    //private AgentController _controller;
+    private bool isActive = true;
+
 
     private void Awake()
     {
-        _charController = transform.root.GetComponent<CharacterController>();
+        _rigidbody = transform.root.GetComponent<Rigidbody>();
         _animator = GetComponent<PlayerAnimator>();
-        //_controller = GetComponent<AgentController>();
+
+        _rigidbody.useGravity = false;
+        _spawnPointReader = transform.root.Find("SpawnPointReader").GetComponent<SpawnPointReader>();
     }
 
     public void SetMovementVelocity(Vector3 value)
     {
         if (value == Vector3.zero) { StopImmediately(); }
         _inputVelocity = value;
-        //_movementVelocity = value;
     }
 
     private void CalculatePlayerMovement()
@@ -37,9 +41,9 @@ public class PlayerMovement : MonoBehaviour
 
         _movementVelocity = _inputVelocity;
 
-        _animator?.SetSpeed(Mathf.CeilToInt(_movementVelocity.sqrMagnitude)); //이동속도 반영
+        _animator?.SetSpeed(Mathf.CeilToInt(_movementVelocity.sqrMagnitude)); // 이동 속도 반영
 
-        _movementVelocity *= speed * Time.fixedDeltaTime;
+        _movementVelocity *= speed;
     }
 
     public void SetRotation()
@@ -60,27 +64,37 @@ public class PlayerMovement : MonoBehaviour
     public void StopImmediately()
     {
         _movementVelocity = Vector3.zero;
-        _animator?.SetSpeed(0); //이동속도 반영
+        _animator?.SetSpeed(0); // 이동 속도 반영
+        _rigidbody.velocity = Vector3.zero;
     }
 
-    public void Move() // FixedUpdate에서 해줄 것
+    public void Move() // FixedUpdate에서 호출할 것
     {
+        if (!isActive) { return; }
+
         CalculatePlayerMovement();
         SetRotation();
 
-        if (_charController.isGrounded == false)
-        {
-            verticalVelocity = gravity * Time.fixedDeltaTime;
-        }
-        else
-        {
-            verticalVelocity = gravity * 0.3f * Time.fixedDeltaTime;
-        }
-
-        Vector3 move = _movementVelocity + verticalVelocity * Vector3.up;
-        _charController.Move(move);
+        Vector3 moveVec = _movementVelocity;
+        moveVec.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = moveVec;
 
         //_agentAnimator?.SetAirbone(!_charController.isGrounded);
     }
 
+    private void OnTriggerEnter(Collider other) // 시간 없어서 일단 걍 여기다가
+    {
+        if (other.gameObject.CompareTag("Car"))
+        {
+            isActive = false;
+            transform.DOScaleY(5, 0.3f);
+            StopImmediately();
+
+            CoroutineUtil.CallWaitForSeconds(1f, () =>
+            {
+                SignalHub.OnPlayerDieEvent?.Invoke(transform, _spawnPointReader.RecentSpawnPoint);
+                isActive = true;
+            });
+        }
+    }
 }

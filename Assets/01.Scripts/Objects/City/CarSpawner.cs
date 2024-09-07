@@ -19,7 +19,6 @@ public class CarSpawner : NetworkBehaviour
         }
 
         randomSpawnTime.OnValueChanged += SpawnCar;
-        randomSpawnIdx.OnValueChanged += SetRandomSpawn;
     }
 
     private void StartSpawnCar()
@@ -38,20 +37,13 @@ public class CarSpawner : NetworkBehaviour
         }
     }
 
-    private void SetRandomSpawn(int oldValue, int newValue)
-    {
-        Debug.Log("SetRandomSpawn");
-    }
-
     private void SpawnCar(float oldValue, float newValue)
     {
-        Debug.Log("SpawnCar");
         Instantiate(_carPrefabs[randomSpawnIdx.Value], transform.position, transform.rotation);
     }
 
     private void OnDisable()
     {
         randomSpawnTime.OnValueChanged -= SpawnCar;
-        randomSpawnIdx.OnValueChanged -= SetRandomSpawn;
     }
 }

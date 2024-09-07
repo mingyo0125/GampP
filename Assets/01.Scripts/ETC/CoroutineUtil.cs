@@ -45,18 +45,6 @@ public static class CoroutineUtil
         _coroutineExecutor.StartCoroutine(DoCallWaitForSeconds(seconds, afterAction));
     }
 
-    public static void CallWaitForAction(Func<bool> predicate, Action afterAction = null)
-    {
-        EnsureCoroutineExecutor();
-        _coroutineExecutor.StartCoroutine(DoCallWaitForAction(predicate, afterAction));
-    }
-
-    public static void CallWaitForActionUntilTrue(Func<bool> predicate, Action action, float heartBeat = 0.02f, Action afterAction = null)
-    {
-        EnsureCoroutineExecutor();
-        _coroutineExecutor.StartCoroutine(DoCallWaitForActionUntilTrue(heartBeat, predicate, action, afterAction));
-    }
-
     private static IEnumerator DoCallWaitForOneFrame(Action action)
     {
         yield return null;
@@ -66,23 +54,6 @@ public static class CoroutineUtil
     private static IEnumerator DoCallWaitForSeconds(float seconds, Action afterAction)
     {
         yield return new WaitForSeconds(seconds);
-        afterAction?.Invoke();
-    }
-
-    private static IEnumerator DoCallWaitForAction(Func<bool> predicate, Action afterAction)
-    {
-        yield return new WaitUntil(predicate);
-        afterAction?.Invoke();
-    }
-
-    private static IEnumerator DoCallWaitForActionUntilTrue(float heartBeat, Func<bool> predicate, Action action, Action afterAction)
-    {
-        while (!predicate())
-        {
-            yield return new WaitForSeconds(heartBeat);
-            action?.Invoke();
-        }
-
         afterAction?.Invoke();
     }
 

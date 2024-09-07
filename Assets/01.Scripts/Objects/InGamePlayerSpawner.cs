@@ -14,7 +14,6 @@ public class InGamePlayerSpawner : PlayerSpawner
     protected override void Start()
     {
         base.Start();
-        Debug.Log("Start");
         if (!LobbyManager.Instance.ClientInfo.IsServer) { return; }
         Debug.Log(NetworkManager.LocalClientId);
 

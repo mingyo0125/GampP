@@ -72,4 +72,6 @@ public class PlayerNetWork : NetworkBehaviour
     {
         clientId = clientid;
     }
+
+    
 }
